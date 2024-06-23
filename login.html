@@ -252,20 +252,31 @@ form button:hover {
         </ul>
     </div>
     <script>
-      var cpfInput = document.querySelector("#cpf");
-       cpfInput.addEventListener("input", function() {
-         var value = cpfInput.value.replace(/\D/g, ""); // Remove caracteres não numéricos
-         if (value.length > 3) {
-           value = value.replace(/(\d{3})(\d{0,3})/, "$1.$2"); // Insere o primeiro ponto
-         }
-         if (value.length > 7) {
-           value = value.replace(/(\d{3})(\d{3})(\d{0,3})/, "$1.$2.$3"); // Insere o segundo ponto
-         }
-         if (value.length > 11) {
-           value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/, "$1.$2.$3-$4"); // Insere o traço
-         }
-         cpfInput.value = value;
-       });
+document.addEventListener("DOMContentLoaded", function() {
+            var cpfInput = document.querySelector("#cpf");
+
+            cpfInput.addEventListener("input", function() {
+                cpfInput.value = formatCPF(cpfInput.value);
+            });
+
+            function formatCPF(value) {
+                value = value.replace(/\D/g, ""); // Remove caracteres não numéricos
+
+                if (value.length > 11) {
+                    value = value.substring(0, 11); // Limita ao máximo de 11 dígitos
+                }
+
+                var formattedValue = value.replace(/(\d{3})(\d{1,3})?(\d{1,3})?(\d{1,2})?/, function(_, p1, p2, p3, p4) {
+                    let result = p1;
+                    if (p2) result += '.' + p2;
+                    if (p3) result += '.' + p3;
+                    if (p4) result += '-' + p4;
+                    return result;
+                });
+
+                return formattedValue;
+            }
+        });
              </script>
 </body>
 </html>
