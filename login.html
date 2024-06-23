@@ -225,22 +225,7 @@ form button:hover {
 });
 
         </script>
-        <script>
- var cpfInput = document.querySelector("#cpf");
-  cpfInput.addEventListener("input", function() {
-    var value = cpfInput.value.replace(/\D/g, ""); // Remove caracteres não numéricos
-    if (value.length > 3) {
-      value = value.replace(/(\d{3})(\d{0,3})/, "$1.$2"); // Insere o primeiro ponto
-    }
-    if (value.length > 7) {
-      value = value.replace(/(\d{3})(\d{3})(\d{0,3})/, "$1.$2.$3"); // Insere o segundo ponto
-    }
-    if (value.length > 11) {
-      value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/, "$1.$2.$3-$4"); // Insere o traço
-    }
-    cpfInput.value = value;
-  });
-        </script>
+       
 </head>
 <body>
     <div class="wrapper">
@@ -266,5 +251,21 @@ form button:hover {
             <li></li>
         </ul>
     </div>
+    <script>
+      var cpfInput = document.querySelector("#cpf");
+       cpfInput.addEventListener("input", function() {
+         var value = cpfInput.value.replace(/\D/g, ""); // Remove caracteres não numéricos
+         if (value.length > 3) {
+           value = value.replace(/(\d{3})(\d{0,3})/, "$1.$2"); // Insere o primeiro ponto
+         }
+         if (value.length > 7) {
+           value = value.replace(/(\d{3})(\d{3})(\d{0,3})/, "$1.$2.$3"); // Insere o segundo ponto
+         }
+         if (value.length > 11) {
+           value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/, "$1.$2.$3-$4"); // Insere o traço
+         }
+         cpfInput.value = value;
+       });
+             </script>
 </body>
 </html>
