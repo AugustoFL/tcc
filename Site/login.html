@@ -215,47 +215,50 @@ form button:hover {
   }
 }
 .loading-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Cor de fundo com transparência */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-.loader {
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #3498db;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  animation: spin 1s linear infinite; /* Animação de rotação */
-}
+    .dots {
+      font-size: 124px;
+      color: #fff;
+      animation: typing 1s infinite alternate; /* Custom animation */
+    }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+    @keyframes pulse {
+      0% {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
 
 
         </style>
         <script>
              $("#login-button").click(function(event){
-		 event.preventDefault();
+		 event.preventDefault(window.location.href("index.html"));
+     ;
 	 
 	 $('form').fadeOut(500);
 	 $('.wrapper').addClass('form-success');
 });
 
-        </script>
+        </script>     
        
 </head>
 <body>
-  <div class="loading-screen">
-    <div class="loader"></div>
+  
   </div>
   
     <div class="wrapper">
@@ -282,7 +285,7 @@ form button:hover {
         </ul>
     </div>
     <script>
-document.addEventListener("DOMContentLoaded", function() {
+      document.addEventListener("DOMContentLoaded", function() {
             var cpfInput = document.querySelector("#cpf");
 
             cpfInput.addEventListener("input", function() {
@@ -308,21 +311,36 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
 
+        
 
-  const entrarButton = document.getElementById('login-button'); // Substitua pelo ID correto do botão
-const loadingScreen = document.querySelector('.loading-screen');
+    const entrarButton = document.getElementById('login-button'); 
+    const loadingScreen = document.createElement('div');
+    loadingScreen.className = 'loading-screen';
+    const dots = document.createElement('span');
+    dots.className = 'dots';
+    dots.textContent = ''; // Três pontos
+    loadingScreen.appendChild(dots);
 
-entrarButton.addEventListener('click', () => {
-  // Exiba a tela de carregamento
-  loadingScreen.style.display = 'block';
+    entrarButton.addEventListener('click', () => {
+    // Exiba a tela de carregamento
+    document.body.appendChild(loadingScreen);
+    loadingScreen.style.display = 'flex';
+ 
+    let dotCount = 0;
+    const intervalId = setInterval(() => {
+      dotCount = (dotCount + 1) % 4; // Cycle through 0, 1, 2, 3
+      dots.textContent = '.'.repeat(dotCount + 1);
+    }, 200); // Change the interval as needed (e.g., 500ms for half-second intervals)
 
-  // Simule o carregamento (você pode fazer uma requisição AJAX aqui)
-  setTimeout(() => {
-    // Após o carregamento, redirecione ou execute outras ações
-    // Por exemplo:
-    window.location.href = 'index.html';
-  }, 2000); // Tempo de simulação (2 segundos)
-});
+     // Simule o carregamento (você pode fazer uma requisição AJAX aqui)
+      setTimeout(() => {
+        // Após o carregamento, redirecione ou execute outras ações
+        // Por exemplo:
+        clearInterval(intervalId); // Clear the interval
+        window.location.href = 'index.html';
+        }, 200); // Tempo de simulação (2 segundos)
+      });
+
 
 
 
