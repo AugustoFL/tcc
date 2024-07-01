@@ -247,8 +247,7 @@ form button:hover {
         </style>
         <script>
              $("#login-button").click(function(event){
-		 event.preventDefault(window.location.href("index.html"));
-     ;
+		
 	 
 	 $('form').fadeOut(500);
 	 $('.wrapper').addClass('form-success');
@@ -330,7 +329,7 @@ form button:hover {
     const intervalId = setInterval(() => {
       dotCount = (dotCount + 1) % 4; // Cycle through 0, 1, 2, 3
       dots.textContent = '.'.repeat(dotCount + 1);
-    }, 200); // Change the interval as needed (e.g., 500ms for half-second intervals)
+    }, 10); // Change the interval as needed (e.g., 500ms for half-second intervals)
 
      // Simule o carregamento (você pode fazer uma requisição AJAX aqui)
       setTimeout(() => {
@@ -338,7 +337,7 @@ form button:hover {
         // Por exemplo:
         clearInterval(intervalId); // Clear the interval
         window.location.href = 'index.html';
-        }, 200); // Tempo de simulação (2 segundos)
+        }, 10); // Tempo de simulação (2 segundos)
       });
 
 
