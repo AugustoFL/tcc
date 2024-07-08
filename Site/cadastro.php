@@ -262,12 +262,14 @@ form button:hover {
   
     <div class="wrapper">
         <div class="container">
-            <h1>Bem-Vindo</h1>
-            <form class="form" method="post" action="login.php">
+            <h1>Cadastre-se</h1>
+            <form class="form" method="post" action="adicionar.php">
+                <label for="cpf"> CPF: </label>
                 <input type="text" name="cpf" id="cpf" placeholder="CPF">
+                <label for="senha"> Senha: </label>
                 <input type="password" name="senha" id="senha" placeholder="Senha">
-                <button type="submit" id="login-button">Entrar</button>
-                <h2> Não tem cadastro? <a href="cadastro.php"> Cadastre aqui </a></h2>
+                <button type="submit" id="login-button">Cadastrar</button>
+                <h2> Já possui cadastro? <a href="login.html"> entre aqui </a></h2>
             </form>
         </div>
         
@@ -340,9 +342,7 @@ form button:hover {
         // Após o carregamento, redirecione ou execute outras ações
         // Por exemplo:
         clearInterval(intervalId); // Clear the interval
-
-        // window.location.href = 'index.html';
-
+        window.location.href = 'index.html';
         }, 10); // Tempo de simulação (2 segundos)
       });
 
