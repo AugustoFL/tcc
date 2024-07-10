@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --index: calc(1vw + 1vh);
+            --transition: cubic-bezier(.1, .7, 0, 1);
+        }
+
+        body {
+            background-color: rgb(0, 168, 133);
+        }
+
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .items {
+            display: flex;
+            gap: 0.4rem;
+            perspective: calc(var(--index) * 125);
+        }
+
+        .item {
+            width: calc(var(--index) * 3);
+            height: calc(var(--index) * 12);
+            background-color: #222;
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            filter: grayscale(1) brightness(.5);
+            transition: transform 1.25s var(--transition), filter 3s var(--transition), width 1.25s var(--transition);
+            will-change: transform, filter, rotateY, width;
+            position: relative;
+        }
+
+        .item::before, .item::after {
+            content: '';
+            position: absolute;
+            height: 100%;
+            width: 20px;
+            right: calc(var(--index) * -1);
+        }
+
+        .item::after {
+            left: calc(var(--index) * -1);
+        }
+
+        .items .item:hover {
+            filter: inherit;
+            transform: translateZ(calc(var(--index) * 10));
+        }
+
+        .items .item:hover + * {
+            filter: inherit;
+            transform: translateZ(calc(var(--index) * 8.5)) rotateY(35deg);
+            z-index: -1;
+        }
+
+        .items .item:hover + * + * {
+            filter: inherit;
+            transform: translateZ(calc(var(--index) * 5.6)) rotateY(40deg);
+            z-index: -2;
+        }
+
+        .items .item:hover + * + * + * {
+            filter: inherit;
+            transform: translateZ(calc(var(--index) * 2.5)) rotateY(30deg);
+            z-index: -3;
+        }
+
+        .items .item:hover + * + * + * + * {
+            filter: inherit;
+            transform: translateZ(calc(var(--index) * .6)) rotateY(15deg);
+            z-index: -4;
+        }
+
+        .items .item:has( + :hover) {
+            filter: inherit;
+            transform: translateZ(calc(var(--index) * 8.5)) rotateY(-35deg);
+        }
+
+        .items .item:has( + * + :hover) {
+            filter: inherit;
+            transform: translateZ(calc(var(--index) * 5.6)) rotateY(-40deg);
+        }
+
+        .items .item:has( + * + * + :hover) {
+            filter: inherit;
+            transform: translateZ(calc(var(--index) * 2.5)) rotateY(-30deg);
+        }
+
+        .items .item:has( + * + * + * + :hover) {
+            filter: inherit;
+            transform: translateZ(calc(var(--index) * .6)) rotateY(-15deg);
+        }
+
+        .items .item:active, .items .item:focus {
+            width: 28vw;
+            filter: inherit;
+            z-index: 100;
+            transform: translateZ(calc(var(--index) * 10));
+            margin: 0 .45vw;
+        }
+
+        .info {
+            margin-top: 20px;
+            text-align: center;
+            color: white;
+            visibility: hidden;
+        }
+
+        .info h2 {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="items">
+            <div class="item" tabindex="0" data-title="Curso 1" data-description="Descrição do Curso 1" style="background-image: url(assets/images/escolaMusica.png)"></div>
+            <div class="item" tabindex="0" data-title="Curso 2" data-description="Descrição do Curso 2" style="background-image: url(assets/images/escolaMusica.png)"></div>
+            <div class="item" tabindex="0" data-title="Curso 3" data-description="Descrição do Curso 3" style="background-image: url(assets/images/escolaMusica.png)"></div>
+            <div class="item" tabindex="0" data-title="Curso 4" data-description="Descrição do Curso 4" style="background-image: url(assets/images/escolaMusica.png)"></div>
+            <div class="item" tabindex="0" data-title="Curso 5" data-description="Descrição do Curso 5" style="background-image: url(assets/images/escolaMusica.png)"></div>
+            <div class="item" tabindex="0" data-title="Curso 6" data-description="Descrição do Curso 6" style="background-image: url(assets/images/escolaMusica.png)"></div>
+            <div class="item" tabindex="0" data-title="Curso 7" data-description="Descrição do Curso 7" style="background-image: url(assets/images/escolaMusica.png)"></div>
+            <div class="item" tabindex="0" data-title="Curso 8" data-description="Descrição do Curso 8" style="background-image: url(assets/images/escolaMusica.png)"></div>
+            <div class="item" tabindex="0" data-title="Curso 9" data-description="Descrição do Curso 9" style="background-image: url(assets/images/escolaMusica.png)"></div>
+            <div class="item" tabindex="0" data-title="Curso 10" data-description="Descrição do Curso 10" style="background-image: url(assets/images/escolaMusica.png)"></div>
+            <div class="item" tabindex="0" data-title="Curso 11" data-description="Descrição do Curso 11" style="background-image: url(assets/images/escolaMusica.png)"></div>
+            <div class="item" tabindex="0" data-title="Curso 12" data-description="Descrição do Curso 12" style="background-image: url(assets/images/escolaMusica.png)"></div>
+            <div class="item" tabindex="0" data-title="Curso 13" data-description="Descrição do Curso 13" style="background-image: url(assets/images/escolaMusica.png)"></div>
+        </div>
+        <div class="info" id="info">
+            <h2 id="info-title"></h2>
+            <p id="info-description"></p>
+        </div>
+    </div>
+
+    <script>
+        const items = document.querySelectorAll('.item');
+        const info = document.getElementById('info');
+        const infoTitle = document.getElementById('info-title');
+        const infoDescription = document.getElementById('info-description');
+
+        items.forEach(item => {
+            item.addEventListener('focus', () => {
+                infoTitle.textContent = item.getAttribute('data-title');
+                infoDescription.textContent = item.getAttribute('data-description');
+                info.style.visibility = 'visible';
+            });
+
+            item.addEventListener('blur', () => {
+                info.style.visibility = 'hidden';
+            });
+        });
+    </script>
+</body>
+</html>

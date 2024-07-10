@@ -871,7 +871,7 @@ Home Section style
 ==================*/
 
 .home{
-    background: url(../images/escolaMusica.png) no-repeat scroll  center center;
+    background: url(assets/images/escolaMusica.png) no-repeat scroll  center center;
     background-size: cover;
     position: relative;
     padding-top: 300px;
@@ -956,7 +956,7 @@ Featured section style
 }
 .features_item .f_item_icon i{
     font-size:4rem;
-    color:#00a885;
+    color:rgb(0, 168, 133);
 }
 .features_item .f_item_text{
     display: inline-block;
