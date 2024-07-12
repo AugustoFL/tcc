@@ -18,6 +18,11 @@
 
         body {
             background-color: rgb(0, 168, 133);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: 'Raleway', sans-serif;
         }
 
         .wrapper {
@@ -25,7 +30,6 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
         }
 
         .items {
@@ -126,48 +130,105 @@
         .info h2 {
             margin-bottom: 10px;
         }
+
+
+     button {
+
+        visibility: hidden;
+        appearance: none;
+        outline: 0;
+        background-color: white;
+        border: 0;
+        padding: 10px 15px;
+        color: #53e3a6;
+        border-radius: 3px;
+        width: 250px;
+        cursor: pointer;
+        font-size: 18px;
+        transition-duration: 0.25s;
+    }
+
+ button:hover {
+  background-color: #f5f7f9;
+}
     </style>
 </head>
 <body>
     <div class="wrapper">
         <div class="items">
-            <div class="item" tabindex="0" data-title="Curso 1" data-description="Descrição do Curso 1" style="background-image: url(assets/images/escolaMusica.png)"></div>
-            <div class="item" tabindex="0" data-title="Curso 2" data-description="Descrição do Curso 2" style="background-image: url(assets/images/escolaMusica.png)"></div>
-            <div class="item" tabindex="0" data-title="Curso 3" data-description="Descrição do Curso 3" style="background-image: url(assets/images/escolaMusica.png)"></div>
-            <div class="item" tabindex="0" data-title="Curso 4" data-description="Descrição do Curso 4" style="background-image: url(assets/images/escolaMusica.png)"></div>
-            <div class="item" tabindex="0" data-title="Curso 5" data-description="Descrição do Curso 5" style="background-image: url(assets/images/escolaMusica.png)"></div>
-            <div class="item" tabindex="0" data-title="Curso 6" data-description="Descrição do Curso 6" style="background-image: url(assets/images/escolaMusica.png)"></div>
-            <div class="item" tabindex="0" data-title="Curso 7" data-description="Descrição do Curso 7" style="background-image: url(assets/images/escolaMusica.png)"></div>
-            <div class="item" tabindex="0" data-title="Curso 8" data-description="Descrição do Curso 8" style="background-image: url(assets/images/escolaMusica.png)"></div>
-            <div class="item" tabindex="0" data-title="Curso 9" data-description="Descrição do Curso 9" style="background-image: url(assets/images/escolaMusica.png)"></div>
-            <div class="item" tabindex="0" data-title="Curso 10" data-description="Descrição do Curso 10" style="background-image: url(assets/images/escolaMusica.png)"></div>
-            <div class="item" tabindex="0" data-title="Curso 11" data-description="Descrição do Curso 11" style="background-image: url(assets/images/escolaMusica.png)"></div>
-            <div class="item" tabindex="0" data-title="Curso 12" data-description="Descrição do Curso 12" style="background-image: url(assets/images/escolaMusica.png)"></div>
-            <div class="item" tabindex="0" data-title="Curso 13" data-description="Descrição do Curso 13" style="background-image: url(assets/images/escolaMusica.png)"></div>
+            <div class="item" tabindex="0" data-title="Violão" data-description="Aprenda como tocar Violão! Acesse!" style="background-image: url(assets/images/escolaMusica.png)" aria-label="Violão"></div>
+            <div class="item" tabindex="0" data-title="Curso 2" data-description="Descrição do Curso 2" style="background-image: url(assets/images/escolaMusica.png)" aria-label="Curso 2"></div>
+            <div class="item" tabindex="0" data-title="Curso 3" data-description="Descrição do Curso 3" style="background-image: url(assets/images/escolaMusica.png)" aria-label="Curso 3"></div>
+            <div class="item" tabindex="0" data-title="Curso 4" data-description="Descrição do Curso 4" style="background-image: url(assets/images/escolaMusica.png)" aria-label="Curso 4"></div>
+            <div class="item" tabindex="0" data-title="Curso 5" data-description="Descrição do Curso 5" style="background-image: url(assets/images/escolaMusica.png)" aria-label="Curso 5"></div>
+            <div class="item" tabindex="0" data-title="Curso 6" data-description="Descrição do Curso 6" style="background-image: url(assets/images/escolaMusica.png)" aria-label="Curso 6"></div>
+            <div class="item" tabindex="0" data-title="Curso 7" data-description="Descrição do Curso 7" style="background-image: url(assets/images/escolaMusica.png)" aria-label="Curso 7"></div>
+            <div class="item" tabindex="0" data-title="Curso 8" data-description="Descrição do Curso 8" style="background-image: url(assets/images/escolaMusica.png)" aria-label="Curso 8"></div>
+            <div class="item" tabindex="0" data-title="Curso 9" data-description="Descrição do Curso 9" style="background-image: url(assets/images/escolaMusica.png)" aria-label="Curso 9"></div>
+            <div class="item" tabindex="0" data-title="Curso 10" data-description="Descrição do Curso 10" style="background-image: url(assets/images/escolaMusica.png)" aria-label="Curso 10"></div>
+            <div class="item" tabindex="0" data-title="Curso 11" data-description="Descrição do Curso 11" style="background-image: url(assets/images/escolaMusica.png)" aria-label="Curso 11"></div>
+            <div class="item" tabindex="0" data-title="Curso 12" data-description="Descrição do Curso 12" style="background-image: url(assets/images/escolaMusica.png)" aria-label="Curso 12"></div>
+            <div class="item" tabindex="0" data-title="Curso 13" data-description="Descrição do Curso 13" style="background-image: url(assets/images/escolaMusica.png)" aria-label="Curso 13"></div>
         </div>
         <div class="info" id="info">
             <h2 id="info-title"></h2>
             <p id="info-description"></p>
         </div>
+        <br>
+        <button class="cursoBotao"> Acesse </button>
     </div>
+   
 
     <script>
         const items = document.querySelectorAll('.item');
         const info = document.getElementById('info');
         const infoTitle = document.getElementById('info-title');
         const infoDescription = document.getElementById('info-description');
+        const cursoBotao= document.querySelector('.cursoBotao');
 
-        items.forEach(item => {
+        // Adiciona evento de foco e desfoco para cada item
+        items.forEach((item, index) => {
             item.addEventListener('focus', () => {
                 infoTitle.textContent = item.getAttribute('data-title');
                 infoDescription.textContent = item.getAttribute('data-description');
                 info.style.visibility = 'visible';
-            });
+                cursoBotao.style.visibility = 'visible';
+            }) 
+        
 
             item.addEventListener('blur', () => {
                 info.style.visibility = 'hidden';
+                cursoBotao.style.visibility = 'hidden';
+            });
+            // Adiciona evento keydown para navegação por teclado
+            item.addEventListener('keydown', (event) => {
+                if (event.key === 'ArrowRight') {
+                    if (items[index + 1]) {
+                        items[index + 1].focus(); // Move o foco para o próximo item
+                    } else {
+                        items[0].focus(); // Move o foco para o primeiro item se estiver no último
+                    }
+                } else if (event.key === 'ArrowLeft') {
+                    if (items[index - 1]) {
+                        items[index -1].focus();
+                    } else {
+                        items[items.length -1 ].focus();
+                    }
+                }
             });
         });
+
+        // Define o foco no primeiro item quando a página é carregada
+        items[0].focus();
+        
+        ///////////-------------------
+        
+
+
+
+
+
+
     </script>
 </body>
 </html>
