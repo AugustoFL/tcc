@@ -180,6 +180,7 @@
    
 
     <script>
+        
         const items = document.querySelectorAll('.item');
         const info = document.getElementById('info');
         const infoTitle = document.getElementById('info-title');
@@ -200,7 +201,6 @@
                 info.style.visibility = 'hidden';
                 cursoBotao.style.visibility = 'hidden';
             });
-            // Adiciona evento keydown para navegação por teclado
             item.addEventListener('keydown', (event) => {
                 if (event.key === 'ArrowRight') {
                     if (items[index + 1]) {

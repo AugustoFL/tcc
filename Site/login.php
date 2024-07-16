@@ -11,9 +11,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         // Conexão com o banco de dados (substitua pelos seus dados)
         $servername = "localhost";
-        $username = "seu_usuario";
-        $password = "sua_senha";
-        $dbname = "seu_banco_de_dados";
+        $username = "root";
+        $password = "";
+        $dbname = "escolamusica";
 
         $conn = new mysqli($servername, $username, $password, $dbname);
 
