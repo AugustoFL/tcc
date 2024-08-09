@@ -47,9 +47,9 @@ body :-ms-input-placeholder {
   font-weight: 300;
 }
 .wrapper {
-  background: #50a3a2;
-  background: linear-gradient(top left, #50a3a2 0%, #53e3a6 100%);
-  background: linear-gradient(to bottom right, #50a3a2 0%, #53e3a6 100%);
+  background: #000000;
+  background: linear-gradient(top left, #0f0f0f 0%, #0f0f0f 100%);
+  background: linear-gradient(to bottom right, #0f0f0f 0%, #464646 100%);
   position: absolute;
   top: 0%;
   left: 0;
@@ -101,15 +101,15 @@ form input:hover {
 form input:focus {
   background-color: white;
   width: 300px;
-  color: #53e3a6;
+  color: #191a19;
 }
 form button {
           appearance: none;
   outline: 0;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   border: 0;
   padding: 10px 15px;
-  color: #53e3a6;
+  color: #252525;
   border-radius: 3px;
   width: 250px;
   cursor: pointer;
@@ -242,8 +242,28 @@ form button:hover {
         transform: scale(1);
       }
     }
+        /* Estilo para o botão de Voltar para Home no topo */
+        .home-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 15px;
+            background-color: #ffffff;
+            color: #252525;
+            border-radius: 3px;
+            text-decoration: none;
+            font-size: 18px;
+            transition-duration: 0.25s;
+            z-index: 9999999999999;
+        }
 
+        .home-button:hover {
+            background-color: #f5f7f9;
+        }
 
+a {
+  color: white;
+}
         </style>
         <script>
              $("#login-button").click(function(event){
@@ -262,12 +282,17 @@ form button:hover {
   </div>
   
     <div class="wrapper">
+       <!-- Botão Voltar para Home no canto superior esquerdo -->
+       <a href="index2.html" class="home-button">Home</a>
+       
         <div class="container">
             <h1>Bem-Vindo</h1>
             <form class="form" method="post" action="login.php">
                 <input type="text" name="cpf" id="cpf" placeholder="CPF">
                 <input type="password" name="senha" id="senha" placeholder="Senha">
                 <button type="submit" id="login-button">Entrar</button>
+                <br>
+                <br>
                 <h2> Não tem cadastro? <a href="cadastro.html"> Cadastre aqui </a></h2>
             </form>
         </div>
