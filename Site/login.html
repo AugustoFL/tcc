@@ -48,14 +48,14 @@ body :-ms-input-placeholder {
 }
 .wrapper {
   background: #000000;
-  background: linear-gradient(top left, #0f0f0f 0%, #0f0f0f 100%);
-  background: linear-gradient(to bottom right, #0f0f0f 0%, #464646 100%);
+  background: linear-gradient(135deg, #000000, #1f1e1e);
   position: absolute;
   top: 0%;
   left: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
+  
 }
 .wrapper.form-success .container h1 {
           transform: translateY(85px);
@@ -264,6 +264,79 @@ form button:hover {
 a {
   color: white;
 }
+
+/* Preloader */
+#preloader {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            overflow: hidden;
+            opacity: 1;
+            transition: opacity 1s ease; /* Transição para fade-in */
+        }
+
+        .preloader-notes {
+            position: relative;
+            width: 100%;
+            height: 80px; /* Ajuste a altura para aproximar as notas */
+        }
+
+        .preloader-notes .note {
+            position: absolute;
+            font-size: 2em;
+            color: #ffffff;
+            animation: preloader-float 3s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes preloader-float {
+            0% {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+        }
+
+        .preloader-notes .note:nth-child(1) {
+            left: 45%; /* Centraliza as notas em relação ao texto */
+            animation-delay: 0s;
+        }
+
+        .preloader-notes .note:nth-child(2) {
+            left: 50%;
+            animation-delay: 0.5s;
+        }
+
+        .preloader-notes .note:nth-child(3) {
+            left: 55%;
+            animation-delay: 1s;
+        }
+
+        .preloader-notes .note:nth-child(4) {
+            left: 60%;
+            animation-delay: 1.5s;
+        }
+
+        #preloader p {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #ffffff;
+        }
+
         </style>
         <script>
              $("#login-button").click(function(event){
@@ -273,11 +346,21 @@ a {
 	 $('.wrapper').addClass('form-success');
 });
 
+
         </script>     
        
 </head>
 <body>
-  
+   <!-- Preloader temático -->
+   <div id="preloader">
+    <div class="preloader-notes">
+        <div class="note">♪</div>
+        <div class="note">♫</div>
+        <div class="note">♩</div>
+        
+    </div>
+    <p>Carregando...</p>
+</div>
   
   </div>
   
@@ -372,7 +455,16 @@ a {
         }, 10); // Tempo de simulação (2 segundos)
       });
 
-
+// Mantém o preloader visível por 3 segundos após o carregamento da página
+window.addEventListener('load', () => {
+            setTimeout(() => {
+                const preloader = document.getElementById('preloader');
+                preloader.style.opacity = '0'; // Fade-out effect
+                setTimeout(() => {
+                    preloader.style.display = 'none'; // Remove preloader after fade-out
+                }, 1000); // Tempo do fade-out
+            }, 2000); // 3000ms = 3 segundos
+        });
 
 
              </script>

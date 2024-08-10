@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landing Page</title>
     <style>
+        /* Estilo existente */
         body, html {
             margin: 0;
             padding: 0;
@@ -36,19 +37,35 @@
 
         .navbar ul li {
             margin-left: 20px;
+            position: relative; /* Necessário para posicionar a nota musical */
         }
 
         .navbar ul li a {
             color: #fff;
             text-decoration: none;
             font-weight: bold;
-            transition: color 0.3s ease;
+            transition: color 0.3s ease, transform 0.3s ease;
+            position: relative;
+            display: inline-block;
         }
 
-        .navbar ul li a:hover {
-            color: #ffd700;
+        
+
+        /* Efeito hover */
+        .navbar ul li:hover a {
+            transform: translateY(-3px); /* Levanta o texto */
         }
 
+        
+
+        /* Efeito de clique */
+        .navbar ul li a:active {
+            transform: translateY(0); /* Volta o texto ao seu lugar original */
+        }
+
+        
+
+        /* Outros estilos existentes */
         .background {
             position: absolute;
             top: 0;
@@ -133,6 +150,7 @@
             color: white;
             text-decoration: none;
         }
+
         /* Preloader */
         #preloader {
             position: fixed;
@@ -204,7 +222,6 @@
             font-size: 1.2em;
             color: #ffffff;
         }
-
         
     </style>
 </head>
@@ -216,7 +233,6 @@
             <div class="note">♪</div>
             <div class="note">♫</div>
             <div class="note">♩</div>
-            
         </div>
         <p>Carregando...</p>
     </div>
@@ -227,11 +243,20 @@
             <a href="#home" style="color: #fff; font-weight: bold; text-decoration: none;">Logo</a>
         </div>
         <ul>
-            <li><a href="#home">Início</a></li>
-            <li><a href="#about">Sobre</a></li>
-            <li><a href="#contact">Contato</a></li>
+            <li>
+                <a href="#home">Início</a>
+
+            </li>
+            <li>
+                <a href="#about">Sobre</a>
+                
+            </li>
+            <li>
+                <a href="#contact">Contato</a>
+                
+            </li>
         </ul>
-        <button class="login-btn"> <a href="login.html">Login</a></button>
+        <div class="login-btn"> <a href="login.html">Login</a></div>
     </div>
 
     <!-- Seção com fundo animado -->
@@ -285,4 +310,5 @@
 
 </body>
 </html>
+
 
