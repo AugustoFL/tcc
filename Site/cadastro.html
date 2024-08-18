@@ -245,70 +245,7 @@
             display: none; /* Inicialmente oculto */
         }
     </style>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var cpfInput = document.querySelector("#cpf");
-            var senhaInput = document.querySelector("#senha");
-            var form = document.querySelector("form");
-            var popup = document.querySelector("#popup");
-            var popupMessage = document.querySelector("#popup-message");
-            var popupOkButton = document.querySelector("#popup-ok-button");
-
-            cpfInput.addEventListener("input", function() {
-                cpfInput.value = formatCPF(cpfInput.value);
-            });
-
-            senhaInput.addEventListener("input", function() {
-                senhaInput.value = formatSenha(senhaInput.value);
-            });
-
-            form.addEventListener("submit", function(event) {
-                if (cpfInput.value.replace(/\D/g, "").length != 11 || senhaInput.value.length < 5) {
-                    event.preventDefault(); // Impede o envio do formulário
-                    showPopup("CPF ou senha inválidos.");
-                } else {
-                    event.preventDefault(); // Impede temporariamente o envio do formulário
-                    showPopup("Cadastro realizado com sucesso!", function() {
-                        form.submit(); // Envia o formulário após o usuário confirmar
-                    });
-                }
-            });
-
-            function formatCPF(value) {
-                value = value.replace(/\D/g, ""); // Remove caracteres não numéricos
-
-                if (value.length > 11) {
-                    value = value.substring(0, 11); // Limita ao máximo de 11 dígitos
-                }
-
-                return value.replace(/(\d{3})(\d{1,3})?(\d{1,3})?(\d{1,2})?/, function(_, p1, p2, p3, p4) {
-                    let result = p1;
-                    if (p2) result += '.' + p2;
-                    if (p3) result += '.' + p3;
-                    if (p4) result += '-' + p4;
-                    return result;
-                });
-            }
-
-            function formatSenha(value) {
-                if (value.length > 11) {
-                    return value.substring(0, 11); // Limita ao máximo de 11 caracteres
-                }
-                return value;
-            }
-
-            function showPopup(message, callback) {
-                popupMessage.textContent = message;
-                popup.style.display = 'block';
-
-                popupOkButton.onclick = function() {
-                    popup.style.display = 'none';
-                    if (callback) {
-                        callback();
-                    }
-                };
-            }
-        });
+   
 
     </script>
 </head>
@@ -362,12 +299,16 @@
 
 
   <script>
-   document.addEventListener("DOMContentLoaded", function() {
+   
+        document.addEventListener("DOMContentLoaded", function() {
             var cpfInput = document.querySelector("#cpf");
             var senhaInput = document.querySelector("#senha");
             var form = document.querySelector("form");
             var cpfError = document.querySelector("#cpf-error");
             var senhaError = document.querySelector("#senha-error");
+            var popup = document.querySelector("#popup");
+            var popupMessage = document.querySelector("#popup-message");
+            var popupOkButton = document.querySelector("#popup-ok-button");
 
             cpfInput.addEventListener("input", function() {
                 cpfInput.value = formatCPF(cpfInput.value);
@@ -378,53 +319,62 @@
             });
 
             form.addEventListener("submit", function(event) {
-                event.preventDefault(); // Impede o envio do formulário
-                var hasError = false;
+    event.preventDefault(); // Impede o envio do formulário inicialmente
+    console.log("Formulário enviado");
 
-                // Resetar mensagens de erro
-                cpfError.style.display = 'none';
-                senhaError.style.display = 'none';
+    // Resetar mensagens de erro
+    cpfError.style.display = 'none';
+    senhaError.style.display = 'none';
+    var hasError = false;
 
-                if (cpfInput.value.replace(/\D/g, "").length != 11) {
-                    cpfError.textContent = "CPF inválido. Deve conter 11 dígitos.";
-                    cpfError.style.display = 'block';
-                    hasError = true;
+    // Remover formatação do CPF antes de validação e envio
+    var cpfLimpo = cpfInput.value.replace(/\D/g, ""); // Remove todos os caracteres que não sejam dígitos
+    cpfInput.value = cpfLimpo; // Atualiza o campo com o CPF sem formatação para envio
+    console.log("CPF limpo:", cpfLimpo);
+
+    if (cpfLimpo.length != 11) {
+        cpfError.textContent = "CPF inválido. Deve conter 11 dígitos.";
+        cpfError.style.display = 'block';
+        hasError = true;
+    }
+
+    if (senhaInput.value.length < 5) {
+        senhaError.textContent = "Senha inválida. Deve conter pelo menos 5 caracteres.";
+        senhaError.style.display = 'block';
+        hasError = true;
+    }
+
+    if (!hasError) {
+        // Use fetch para enviar o formulário e verificar a resposta
+        fetch('adicionar.php', {
+            method: 'POST',
+            body: new FormData(form)
+        })
+        .then(response => response.text()) // Use text() ao invés de json() para ver a resposta bruta
+        .then(data => {
+            console.log("Resposta bruta do servidor:", data);
+            try {
+                const jsonData = JSON.parse(data);
+                console.log("Resposta JSON do servidor:", jsonData);
+                if (jsonData.success) {
+                 
+                        window.location.href = 'login.html'; // Redireciona após sucesso
+                    
+                } else {
+                    alert(jsonData.message);
                 }
+            } catch (error) {
+                console.error('Erro ao parsear JSON:', error);
+                alert('Erro ao processar a solicitação.');
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao processar a solicitação.');
+        });
+    }
+});
 
-                if (senhaInput.value.length < 5) {
-                    senhaError.textContent = "Senha inválida. Deve conter pelo menos 5 caracteres.";
-                    senhaError.style.display = 'block';
-                    hasError = true;
-                }
-
-                if (!hasError) {
-                    var formData = new FormData(form);
-                    fetch("adicionar.php", {
-                        method: "POST",
-                        body: formData
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            window.location.href = 'login.html'; // Redireciona após sucesso
-                        } else {
-                            if (data.message.includes("CPF")) {
-                                cpfError.textContent = data.message;
-                                cpfError.style.display = 'block';
-                            } else if (data.message.includes("Senha")) {
-                                senhaError.textContent = data.message;
-                                senhaError.style.display = 'block';
-                            } else {
-                                alert(data.message);
-                            }
-                        }
-                    })
-                    .catch(error => {
-                        alert("Erro ao processar a solicitação.");
-                        console.error("Error:", error);
-                    });
-                }
-            });
 
             function formatCPF(value) {
                 value = value.replace(/\D/g, ""); // Remove caracteres não numéricos
@@ -433,12 +383,8 @@
                     value = value.substring(0, 11); // Limita ao máximo de 11 dígitos
                 }
 
-                return value.replace(/(\d{3})(\d{1,3})?(\d{1,3})?(\d{1,2})?/, function(_, p1, p2, p3, p4) {
-                    let result = p1;
-                    if (p2) result += '.' + p2;
-                    if (p3) result += '.' + p3;
-                    if (p4) result += '-' + p4;
-                    return result;
+                return value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, function(_, p1, p2, p3, p4) {
+                    return `${p1}.${p2}.${p3}-${p4}`;
                 });
             }
 
@@ -447,21 +393,22 @@
                     return value.substring(0, 11); // Limita ao máximo de 11 caracteres
                 }
                 return value;
-              }
-   // Mantém o preloader visível por 3 segundos após o carregamento da página
-   window.addEventListener('load', () => {
-            setTimeout(() => {
-                const preloader = document.getElementById('preloader');
-                preloader.style.opacity = '0'; // Fade-out effect
-                setTimeout(() => {
-                    preloader.style.display = 'none'; // Remove preloader after fade-out
-                }, 1000); // Tempo do fade-out
-            }, 2000); // 3000ms = 3 segundos
-        });
-});
+            }
 
-// Função para capturar parâmetros da URL
-document.addEventListener("DOMContentLoaded", function() {
+            function showPopup(message, callback) {
+                popupMessage.textContent = message;
+                popup.style.display = 'block';
+
+                popupOkButton.onclick = function() {
+                    popup.style.display = 'none';
+                    if (callback) {
+                        callback();
+                    }
+                };
+            }
+
+            
+
             function getQueryParameter(name) {
                 let urlParams = new URLSearchParams(window.location.search);
                 return urlParams.get(name);
@@ -486,8 +433,17 @@ document.addEventListener("DOMContentLoaded", function() {
                     errorMessageElement.style.display = 'block';
                 }
             }
-        });
-
+        
+    });
+    window.addEventListener('load', () => {
+                setTimeout(() => {
+                    const preloader = document.getElementById('preloader');
+                    preloader.style.opacity = '0'; // Fade-out effect
+                    setTimeout(() => {
+                        preloader.style.display = 'none'; // Remove preloader after fade-out
+                    }, 1000); // Tempo do fade-out
+                }, 2000); // 2000ms = 2 segundos
+            });
   </script>
 </body>
 </html>
