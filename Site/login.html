@@ -466,6 +466,16 @@ window.addEventListener('load', () => {
             }, 2000); // 3000ms = 3 segundos
         });
 
+        var senhaInput = document.querySelector("#senha");
+        senhaInput.addEventListener("input", function() {
+                senhaInput.value = formatSenha(senhaInput.value);
+            });
+            function formatSenha(value) {
+                if (value.length > 11) {
+                    return value.substring(0, 11); // Limita ao máximo de 11 caracteres
+                }
+                return value;
+            }
 
              </script>
 </body>

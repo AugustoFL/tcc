@@ -1,11 +1,15 @@
 <?php
-// Verifica se o formulário foi enviado
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtém os dados do formulário
     $login = $_POST["cpf"];
     $senha = $_POST["senha"];
 
-    // Validação (você pode adicionar mais validações aqui)
+    // Remove pontos e hífens do CPF
+    $login = str_replace(['.', '-'], '', $login);
+
+    
+
+    // Validação básica
     if (empty($login) || empty($senha)) {
         echo "Preencha todos os campos!";
     } else {
@@ -21,19 +25,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             die("Erro na conexão: " . $conn->connect_error);
         }
 
-        // Consulta para verificar as credenciais
-        $sql = "SELECT * FROM usuarios WHERE login = '$login' AND senha = '$senha'";
-        $result = $conn->query($sql);
+        // Consulta usando prepared statements
+        $stmt = $conn->prepare("SELECT senha FROM usuarios WHERE login = ?");
+        $stmt->bind_param("s", $login);
+        $stmt->execute();
+        $stmt->store_result();
 
-        if ($result->num_rows > 0) {
-            // Usuário autenticado com sucesso
-            header("Location: index.php");
-            exit;
+        // Verifica se encontrou algum usuário
+        if ($stmt->num_rows > 0) {
+            $stmt->bind_result($hashed_password);
+            $stmt->fetch();
+
+            // Verifica se a senha está correta
+            if (password_verify($senha, $hashed_password)) {
+                header("Location: index2.php");
+                exit;
+            } else {
+                echo "Credenciais inválidas. Tente novamente.";
+            }
         } else {
-            echo "Credenciais inválidas. Tente novamente.";
+            echo "Usuário não encontrado. Verifique o CPF e tente novamente.";
         }
 
+        $stmt->close();
         $conn->close();
     }
 }
+
+
 ?>
+
