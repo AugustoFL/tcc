@@ -1,3 +1,13 @@
+<?php
+session_start(); // Inicia a sessão para verificar o login
+
+// Verifica se o usuário está logado
+$logged_in = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
+$user = $logged_in ? $_SESSION['user'] : null;
+$tipo_usuario = isset($_SESSION['tipo_usuario']) ? $_SESSION['tipo_usuario'] : 'cliente'; // Define como cliente se não estiver logado
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -37,7 +47,7 @@
 
         .navbar ul li {
             margin-left: 20px;
-            position: relative; /* Necessário para posicionar a nota musical */
+            position: relative;
         }
 
         .navbar ul li a {
@@ -49,23 +59,14 @@
             display: inline-block;
         }
 
-        
-
-        /* Efeito hover */
         .navbar ul li:hover a {
-            transform: translateY(-3px); /* Levanta o texto */
+            transform: translateY(-3px);
         }
 
-        
-
-        /* Efeito de clique */
         .navbar ul li a:active {
-            transform: translateY(0); /* Volta o texto ao seu lugar original */
+            transform: translateY(0);
         }
 
-        
-
-        /* Outros estilos existentes */
         .background {
             position: absolute;
             top: 0;
@@ -122,7 +123,7 @@
             background: rgba(70, 130, 180, 0.7);
         }
 
-        .login-btn {
+        .login-btn, .user-icon {
             padding: 10px 20px;
             background-color: #fafafa;
             color: #000;
@@ -131,24 +132,43 @@
             cursor: pointer;
             font-size: 16px;
             transition: background-color 0.3s ease;
-            a {
-                text-decoration: none;
-                color: black;
-            }
         }
 
-        .login-btn:hover {
+        .login-btn:hover, .user-icon:hover {
             background-color: #750a67;
             color: white;
-            a {
-                text-decoration: none;
-                color:white
-            }
         }
-        
-        .login-btn a:hover {
-            color: white;
+
+        /* User icon dropdown */
+        .user-menu {
+            position: relative;
+            display: inline-block;
+        }
+
+        .user-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: #f9f9f9;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+            width: 200px;
+        }
+
+        .user-dropdown a {
+            color: black;
+            padding: 12px 16px;
             text-decoration: none;
+            display: block;
+        }
+
+        .user-dropdown a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .user-menu:hover .user-dropdown {
+            display: block;
         }
 
         /* Preloader */
@@ -166,13 +186,13 @@
             z-index: 9999;
             overflow: hidden;
             opacity: 1;
-            transition: opacity 1s ease; /* Transição para fade-in */
+            transition: opacity 1s ease;
         }
 
         .preloader-notes {
             position: relative;
             width: 100%;
-            height: 80px; /* Ajuste a altura para aproximar as notas */
+            height: 80px;
         }
 
         .preloader-notes .note {
@@ -198,7 +218,7 @@
         }
 
         .preloader-notes .note:nth-child(1) {
-            left: 45%; /* Centraliza as notas em relação ao texto */
+            left: 45%;
             animation-delay: 0s;
         }
 
@@ -222,7 +242,6 @@
             font-size: 1.2em;
             color: #ffffff;
         }
-        
     </style>
 </head>
 <body>
@@ -243,20 +262,28 @@
             <a href="#home" style="color: #fff; font-weight: bold; text-decoration: none;">Logo</a>
         </div>
         <ul>
-            <li>
-                <a href="#home">Início</a>
-
-            </li>
-            <li>
-                <a href="#about">Sobre</a>
-                
-            </li>
-            <li>
-                <a href="#contact">Contato</a>
-                
-            </li>
+            <li><a href="#home">Início</a></li>
+            <li><a href="#about">Sobre</a></li>
+            <li><a href="#contact">Contato</a></li>
         </ul>
-        <div class="login-btn"> <a href="login.html">Login</a></div>
+
+          <!-- Exibe o ícone de usuário se estiver logado, caso contrário exibe o botão de login -->
+        <?php if ($logged_in): ?>
+            <div class="user-menu">
+                <button class="user-icon">👤</button>
+                <div class="user-dropdown">
+                    <a href="#">Painel do Usuário</a>
+                    <?php if ($tipo_usuario === 'funcionario'): ?>
+                        <a href="#">Painel do Funcionário</a>
+                    <?php endif; ?>
+                    <a href="logout.php">Sair</a>
+                </div>
+            </div>
+        <?php else: ?>
+            <div class="login-btn">
+                <a href="login.html">Login</a>
+            </div>
+        <?php endif; ?>
     </div>
 
     <!-- Seção com fundo animado -->
@@ -303,12 +330,13 @@
                 preloader.style.opacity = '0'; // Fade-out effect
                 setTimeout(() => {
                     preloader.style.display = 'none'; // Remove preloader after fade-out
-                }, 1000); // Tempo do fade-out
-            }, 2000); // 3000ms = 3 segundos
+                }, 1000);
+            }, 2000);
         });
     </script>
 
 </body>
 </html>
+
 
 

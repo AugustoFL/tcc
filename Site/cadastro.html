@@ -306,9 +306,7 @@
             var form = document.querySelector("form");
             var cpfError = document.querySelector("#cpf-error");
             var senhaError = document.querySelector("#senha-error");
-            var popup = document.querySelector("#popup");
-            var popupMessage = document.querySelector("#popup-message");
-            var popupOkButton = document.querySelector("#popup-ok-button");
+            
 
             cpfInput.addEventListener("input", function() {
                 cpfInput.value = formatCPF(cpfInput.value);
@@ -395,17 +393,7 @@
                 return value;
             }
 
-            function showPopup(message, callback) {
-                popupMessage.textContent = message;
-                popup.style.display = 'block';
-
-                popupOkButton.onclick = function() {
-                    popup.style.display = 'none';
-                    if (callback) {
-                        callback();
-                    }
-                };
-            }
+            
 
             
 

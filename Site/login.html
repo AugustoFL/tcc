@@ -477,6 +477,19 @@ window.addEventListener('load', () => {
                 return value;
             }
 
+          // Verifica se há mensagens de erro na URL e as exibe
+          document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const errorMessage = urlParams.get('error');
+            if (errorMessage) {
+                const errorDiv = document.createElement('div');
+                errorDiv.textContent = errorMessage;
+                errorDiv.style.color = 'red';
+                errorDiv.style.marginBottom = '20px';
+                const form = document.querySelector('form');
+                form.insertBefore(errorDiv, form.firstChild);
+            }
+        });
              </script>
 </body>
 </html>
