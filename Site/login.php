@@ -53,14 +53,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Prepare the SQL statement
-    $stmt = $conn->prepare("SELECT senha FROM usuarios WHERE login = ?");
+    $stmt = $conn->prepare("SELECT senha, tipo_usuario FROM usuarios WHERE login = ?");
     $stmt->bind_param("s", $login);
     $stmt->execute();
     $stmt->store_result();
 
     // Se encontrou o usuário
     if ($stmt->num_rows > 0) {
-        $stmt->bind_result($hashed_password);
+        $stmt->bind_result($hashed_password, $tipo_usuario); 
         $stmt->fetch();
 
         

@@ -4,7 +4,9 @@ session_start(); // Inicia a sessão para verificar o login
 // Verifica se o usuário está logado
 $logged_in = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
 $user = $logged_in ? $_SESSION['user'] : null;
-$tipo_usuario = isset($_SESSION['tipo_usuario']) ? $_SESSION['tipo_usuario'] : 'cliente'; // Define como cliente se não estiver logado
+$tipo_usuario = isset($_SESSION['tipo_usuario']) ? $_SESSION['tipo_usuario'] : null; // Define como cliente se não estiver logado
+// Verifique se o tipo de usuário está correto
+var_dump($_SESSION['tipo_usuario']); // Verifica o valor de tipo_usuario
 
 ?>
 
@@ -272,7 +274,7 @@ $tipo_usuario = isset($_SESSION['tipo_usuario']) ? $_SESSION['tipo_usuario'] : '
             <div class="user-menu">
                 <button class="user-icon">👤</button>
                 <div class="user-dropdown">
-                    <a href="#">Painel do Usuário</a>
+                    <a href="painelUsuario.php">Painel do Usuário</a>
                     <?php if ($tipo_usuario === 'funcionario'): ?>
                         <a href="#">Painel do Funcionário</a>
                     <?php endif; ?>
@@ -297,6 +299,8 @@ $tipo_usuario = isset($_SESSION['tipo_usuario']) ? $_SESSION['tipo_usuario'] : '
     <section id="about" class="section">
         <h2>Sobre Nós</h2>
         <p>Informações sobre a empresa.</p>
+    <?php // Verifique se o tipo de usuário está correto
+var_dump($_SESSION['tipo_usuario']);  ?>
     </section>
 
     <section id="contact" class="section">
