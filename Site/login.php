@@ -79,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: login.html?error=Credenciais inválidas");
         exit;
     }
-}
+
     } else {
         // Incrementa tentativas em caso de usuário não encontrado
         $_SESSION['login_attempts'] += 1;
@@ -87,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: login.html?error=Usuário não encontrado");
         exit;
     }
-
+}
     $stmt->close();
     $conn->close();
 ?>

@@ -63,6 +63,7 @@ var_dump($_SESSION['tipo_usuario']); // Verifica o valor de tipo_usuario
 
         .navbar ul li:hover a {
             transform: translateY(-3px);
+            
         }
 
         .navbar ul li a:active {
@@ -119,10 +120,11 @@ var_dump($_SESSION['tipo_usuario']); // Verifica o valor de tipo_usuario
         #about {
             background: rgba(255, 215, 0, 0.7);
             color: #000;
+            
         }
 
         #contact {
-            background: rgba(70, 130, 180, 0.7);
+            background: #f9f9f9;
         }
 
         .login-btn, .user-icon {
@@ -138,7 +140,13 @@ var_dump($_SESSION['tipo_usuario']); // Verifica o valor de tipo_usuario
 
         .login-btn:hover, .user-icon:hover {
             background-color: #750a67;
-            color: white;
+            color: #fafafa;
+            
+        }
+        .login-btn:hover, .user-icon:hover: a {
+            
+            color: #fafafa;
+            
         }
 
         /* User icon dropdown */
@@ -244,6 +252,46 @@ var_dump($_SESSION['tipo_usuario']); // Verifica o valor de tipo_usuario
             font-size: 1.2em;
             color: #ffffff;
         }
+
+        .containerSobre {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+}           
+
+.columnSobre {    
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 30%;
+}
+
+.contact-info {
+    font-size: 17px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.contact-info p {
+    font-size: 17px;
+    margin: 10px 0;
+    color: #000; /* Cor do texto de contato */
+}
+
+.contact-info a {
+    font-size: 17px;
+    color: #000;
+    text-decoration: none;
+}
+
+.contact-info a:hover {
+    text-decoration: underline;
+    
+}
+#contact h2 {
+    color: #000;
+    font-size: 25px;
+}
+
     </style>
 </head>
 <body>
@@ -275,9 +323,9 @@ var_dump($_SESSION['tipo_usuario']); // Verifica o valor de tipo_usuario
                 <button class="user-icon">👤</button>
                 <div class="user-dropdown">
                     <a href="painelUsuario.php">Painel do Usuário</a>
-                    <?php if ($tipo_usuario === 'funcionario'): ?>
+                   <!-- <//?php if ($tipo_usuario === 'funcionario'): ?>
                         <a href="#">Painel do Funcionário</a>
-                    <?php endif; ?>
+                    <//?php endif; ?> -->
                     <a href="logout.php">Sair</a>
                 </div>
             </div>
@@ -297,15 +345,31 @@ var_dump($_SESSION['tipo_usuario']); // Verifica o valor de tipo_usuario
 
     <!-- Outras Seções -->
     <section id="about" class="section">
-        <h2>Sobre Nós</h2>
-        <p>Informações sobre a empresa.</p>
-    <?php // Verifique se o tipo de usuário está correto
-var_dump($_SESSION['tipo_usuario']);  ?>
+      <h1>Sobre nós</h1> 
+      <div class="containerSobre">       
+        <div class="columnSobre">
+            <h2>Quem somos?</h2>
+            <p>A escola municipal de música de Ourinhos é uma instituição com o intuito de promover a cultura na cidade, oferecendo cursos gratuitos em diversas modalidades da música, com instrumentos e até aulas de canto.</p>
+        </div>
+        <div class="columnSobre">
+            <h2>Como funciona?</h2>
+            <p>A instituição oferece cursos coletivos e individuais para os alunos que se interessarem, seguindo uma lista de espera. Você pode conferir os cursos e como funcionamos na página do curso.</p>
+        </div>
+        <div class="columnSobre">
+            <h2>Contato</h2>
+            <p>Para mais informações, entre em contato conosco através do nosso site na seção 'Contato' ou visite nossa sede em Ourinhos.</p>
+        </div>
+    </div>
     </section>
 
     <section id="contact" class="section">
         <h2>Contato</h2>
         <p>Entre em contato conosco.</p>
+        <div class="contact-info">
+            <p><strong>Endereço:</strong> Rua Treze de Maio 300 (Vila Perino), Ourinhos</p>
+            <p><strong>Telefone:</strong> (14) 3302-1815</p>
+            <p><strong>Email:</strong> <a href="mailto:escolademusicadeourinhos2020@gmail.com">escolademusicadeourinhos2020@gmail.com</a></p>
+        </div>
     </section>
 
     <script>
