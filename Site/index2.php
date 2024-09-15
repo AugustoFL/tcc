@@ -344,7 +344,7 @@ var_dump($_SESSION['tipo_usuario']); // Verifica o valor de tipo_usuario
 
         .course button {
             background-color: #750a67;
-            color: white;
+            colorwhite;
             border: none;
             padding: 10px;
             border-radius: 5px;
