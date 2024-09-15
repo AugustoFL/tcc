@@ -292,6 +292,74 @@ var_dump($_SESSION['tipo_usuario']); // Verifica o valor de tipo_usuario
     font-size: 25px;
 }
 
+  /* Estilo da vitrine de cursos */
+  .vitrine {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 50px auto;
+        }
+
+        .course {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            width: 300px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .course:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .course img {
+            width: 100%;
+            height: auto;
+        }
+
+        .course-details {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .course-title {
+            font-size: 1.2em;
+            margin: 0 0 10px;
+        }
+
+        .course-price {
+            color: #b12704;
+            font-size: 1.1em;
+            margin: 0 0 10px;
+        }
+
+        .course-description {
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .course button {
+            background-color: #750a67;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .course button:hover {
+            background-color: #a0128b;
+        }
+
+        .course button:active {
+            background-color: #520439;
+        }
     </style>
 </head>
 <body>
@@ -344,6 +412,58 @@ var_dump($_SESSION['tipo_usuario']); // Verifica o valor de tipo_usuario
     </section>
 
     <!-- Outras Seções -->
+    <!-- Seção de Cursos -->
+    <section id="courses" class="section" style="background-color: #fff;">
+        <h1 style="color: #000;">Nossos Cursos</h1>
+        <div class="vitrine">
+            <div class="course">
+                <img src="https://via.placeholder.com/300" alt="Curso de Violão">
+                <div class="course-details">
+                    <h2 class="course-title">Curso de Violão</h2>
+                    <p class="course-price">Gratuito</p>
+                    <p class="course-description">Aprenda a tocar violão com aulas práticas e teóricas. Curso para iniciantes e avançados.</p>
+                    <button>Inscrever-se</button>
+                </div>
+            </div>
+            <div class="course">
+                <img src="https://via.placeholder.com/300" alt="Curso de Canto">
+                <div class="course-details">
+                    <h2 class="course-title">Curso de Canto</h2>
+                    <p class="course-price">Gratuito</p>
+                    <p class="course-description">Desenvolva suas habilidades vocais com nosso curso completo de canto.</p>
+                    <button>Inscrever-se</button>
+                </div>
+            </div>
+            <div class="course">
+                <img src="https://via.placeholder.com/300" alt="Curso de Teclado">
+                <div class="course-details">
+                    <h2 class="course-title">Curso de Teclado</h2>
+                    <p class="course-price">Gratuito</p>
+                    <p class="course-description">Domine o teclado em nosso curso dinâmico para todos os níveis.</p>
+                    <button>Inscrever-se</button>
+                </div>
+            </div>
+            <div class="course">
+                <img src="https://via.placeholder.com/300" alt="Curso de Bateria">
+                <div class="course-details">
+                    <h2 class="course-title">Curso de Bateria</h2>
+                    <p class="course-price">Gratuito</p>
+                    <p class="course-description">Aprenda as técnicas essenciais de bateria e pratique com acompanhamento.</p>
+                    <button>Inscrever-se</button>
+                </div>
+            </div>
+            <div class="course">
+                <img src="https://via.placeholder.com/300" alt="Curso de Flauta">
+                <div class="course-details">
+                    <h2 class="course-title">Curso de Flauta</h2>
+                    <p class="course-price">Gratuito</p>
+                    <p class="course-description">Explore a flauta e desenvolva habilidades de sopro com aulas práticas.</p>
+                    <button>Inscrever-se</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Seção Sobre Nós -->
     <section id="about" class="section">
       <h1>Sobre nós</h1> 
       <div class="containerSobre">       
