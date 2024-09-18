@@ -443,23 +443,6 @@ var_dump($_SESSION['tipo_usuario']); // Verifica o valor de tipo_usuario
                     <button>Inscrever-se</button>
                 </div>
             </div>
-            <div class="course">
-                <img src="https://via.placeholder.com/300" alt="Curso de Bateria">
-                <div class="course-details">
-                    <h2 class="course-title">Curso de Bateria</h2>
-                    <p class="course-price">Gratuito</p>
-                    <p class="course-description">Aprenda as técnicas essenciais de bateria e pratique com acompanhamento.</p>
-                    <button>Inscrever-se</button>
-                </div>
-            </div>
-            <div class="course">
-                <img src="https://via.placeholder.com/300" alt="Curso de Flauta">
-                <div class="course-details">
-                    <h2 class="course-title">Curso de Flauta</h2>
-                    <p class="course-price">Gratuito</p>
-                    <p class="course-description">Explore a flauta e desenvolva habilidades de sopro com aulas práticas.</p>
-                    <button>Inscrever-se</button>
-                </div>
             </div>
         </div>
     </section>
