@@ -43,19 +43,30 @@ function verificarCPFExistente($login, $conn) {
 }
 
 function cadastrarUsuario($login, $senhaHash, $conn) {
-    if ($stmt = $conn->prepare("INSERT INTO usuarios (login, senha) VALUES (?, ?)")) {
-        $stmt->bind_param("ss", $login, $senhaHash);
-        if ($stmt->execute() === TRUE) {
-            $stmt->close();
-            return ['success' => true, 'message' => 'Cadastro realizado com sucesso!'];
-        } else {
-            error_log("Erro ao cadastrar: " . $stmt->error);
-            $stmt->close();
-            return ['success' => false, 'message' => 'Erro ao cadastrar o usuário.'];
-        }
-    } else {
-        error_log("Erro ao preparar a consulta: " . $conn->error);
-        return ['success' => false, 'message' => 'Erro interno ao processar o cadastro.'];
+    // Iniciar transação para garantir que ambas as inserções sejam feitas ou nenhuma
+    $conn->begin_transaction();
+    try {
+        // Insere o usuário na tabela 'usuarios'
+        $stmt1 = $conn->prepare("INSERT INTO usuarios (login, senha, data_cadastro) VALUES (?, ?, NOW())");
+        $stmt1->bind_param("ss", $login, $senhaHash);
+        $stmt1->execute();
+        $stmt1->close();
+
+        // Insere os dados do relatório na tabela 'relatorios' com o mesmo CPF (login)
+        $stmt2 = $conn->prepare("INSERT INTO relatorios (usuario_cpf, data, descricao) VALUES (?, NOW(), 'Cadastro de Usuario')");
+        $stmt2->bind_param("s", $login);
+        $stmt2->execute();
+        $stmt2->close();
+
+        // Se ambos os INSERTs forem bem-sucedidos, confirma a transação
+        $conn->commit();
+        return ['success' => true, 'message' => 'Cadastro e relatório registrados com sucesso!'];
+
+    } catch (Exception $e) {
+        // Em caso de erro, desfaz a transação
+        $conn->rollback();
+        error_log("Erro ao cadastrar: " . $e->getMessage());
+        return ['success' => false, 'message' => 'Erro ao cadastrar o usuário e gerar o relatório.'];
     }
 }
 
@@ -63,12 +74,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $login = $_POST["cpf"];
     $senha = $_POST["senha"];
 
+    // Validações básicas
     if (empty($login) || empty($senha)) {
         http_response_code(400);
         echo json_encode(['success' => false, 'message' => 'Preencha todos os campos!']);
         exit;
     }
 
+    // Valida CPF e senha (mínimo 5 caracteres)
     if (strlen($login) != 11 || strlen($senha) < 5) {
         http_response_code(400);
         echo json_encode(['success' => false, 'message' => 'CPF ou senha inválidos.']);
@@ -100,6 +113,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $conn->close();
 }
-
-$conn->close();
 ?>

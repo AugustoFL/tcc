@@ -108,7 +108,7 @@ $tipo_usuario = isset($_SESSION['tipo_usuario']) ? $_SESSION['tipo_usuario'] : '
         <?php if ($tipo_usuario === 'funcionario'): ?>
             <h3>Administração</h3>
             <a href="#">Gerenciar Usuários</a>
-            <a href="#">Relatórios</a>
+            <a href="relatorio_func.php">Relatórios</a>
         <?php endif; ?>
 
         <a href="logout.php" class="logout-btn">Sair</a>

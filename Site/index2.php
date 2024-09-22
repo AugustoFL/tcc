@@ -442,9 +442,10 @@ var_dump($_SESSION['tipo_usuario']); // Verifica o valor de tipo_usuario
                     <p class="course-description">Domine o teclado em nosso curso dinâmico para todos os níveis.</p>
                     <button>Inscrever-se</button>
                 </div>
-            </div>
-            </div>
+            </div>                
         </div>
+        
+        <a href="cursos.php"> Veja Mais </a>    
     </section>
     <!-- Seção Sobre Nós -->
     <section id="about" class="section">
