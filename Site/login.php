@@ -79,8 +79,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: login.html?error=Usuário não encontrado");
         exit;
     }
-}
 
-$stmt->close();
-$conn->close();
+    // Fecha o statement e a conexão com o banco de dados
+    $stmt->close();
+    $conn->close();
+}
 ?>
