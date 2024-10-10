@@ -22,10 +22,10 @@ if ($conn->connect_error) {
 $login = $_SESSION['user'];
 
 // Busca os dados do usuário no banco de dados
-$stmt = $conn->prepare("SELECT nome, email, rg, imagem_rg FROM usuarios WHERE login = ?");
+$stmt = $conn->prepare("SELECT nome, email, rg FROM usuarios WHERE login = ?");
 $stmt->bind_param("s", $login);
 $stmt->execute();
-$stmt->bind_result($nome, $email, $rg, $imagem_rg);
+$stmt->bind_result($nome, $email, $rg);
 $stmt->fetch();
 $stmt->close();
 $conn->close();

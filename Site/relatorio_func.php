@@ -150,7 +150,7 @@ $conn->close();
         <!-- Se o usuário for funcionário, mostra opções adicionais -->
         <?php if ($tipo_usuario === 'funcionario'): ?>
             <h3>Administração</h3>
-            <a href="#">Gerenciar Usuários</a>
+            <a href="gerenciar_usuarios.php">Gerenciar Usuários</a>
             <a href="relatorio_func.php">Relatórios</a>
         <?php endif; ?>
 

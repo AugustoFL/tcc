@@ -43,7 +43,7 @@ function verificarCPFExistente($login, $conn) {
 }
 
 function cadastrarUsuario($login, $senhaHash, $conn) {
-    // Iniciar transação para garantir que ambas as inserções sejam feitas ou nenhuma
+    // Iniciar transação para garantir que a inserção seja feita corretamente
     $conn->begin_transaction();
     try {
         // Insere o usuário na tabela 'usuarios'
@@ -52,23 +52,18 @@ function cadastrarUsuario($login, $senhaHash, $conn) {
         $stmt1->execute();
         $stmt1->close();
 
-        // Insere os dados do relatório na tabela 'relatorios' com o mesmo CPF (login)
-        $stmt2 = $conn->prepare("INSERT INTO relatorios (usuario_cpf, data, descricao) VALUES (?, NOW(), 'Cadastro de Usuario')");
-        $stmt2->bind_param("s", $login);
-        $stmt2->execute();
-        $stmt2->close();
-
-        // Se ambos os INSERTs forem bem-sucedidos, confirma a transação
+        // Se o INSERT for bem-sucedido, confirma a transação
         $conn->commit();
-        return ['success' => true, 'message' => 'Cadastro e relatório registrados com sucesso!'];
+        return ['success' => true, 'message' => 'Cadastro registrado com sucesso!'];
 
     } catch (Exception $e) {
         // Em caso de erro, desfaz a transação
         $conn->rollback();
         error_log("Erro ao cadastrar: " . $e->getMessage());
-        return ['success' => false, 'message' => 'Erro ao cadastrar o usuário e gerar o relatório.'];
+        return ['success' => false, 'message' => 'Erro ao cadastrar o usuário.'];
     }
 }
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $login = $_POST["cpf"];
