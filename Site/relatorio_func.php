@@ -16,12 +16,11 @@ if ($tipo_usuario !== 'funcionario') {
     exit;
 }
 
+// Conexão com o banco de dados
 $servername = "localhost"; 
 $username = "root"; 
 $password = ""; 
 $dbname = "escolamusica"; 
-
-// Cria a conexão
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Verifica se houve erro na conexão
@@ -29,30 +28,77 @@ if ($conn->connect_error) {
     die("Erro na conexão: " . $conn->connect_error);
 }
 
-// Variável de filtro
+// Variáveis de filtro
 $cpfFiltro = isset($_GET['cpf']) ? $_GET['cpf'] : '';
+$data_inicio = isset($_GET['data_inicio']) ? $_GET['data_inicio'] : '';
+$data_fim = isset($_GET['data_fim']) ? $_GET['data_fim'] : '';
 
-// Query base
+// Número de resultados por página
+$resultados_por_pagina = 10;
+$pagina_atual = isset($_GET['pagina']) && is_numeric($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+$offset = ($pagina_atual - 1) * $resultados_por_pagina;
+
+// Query base para contar os registros
+$sql_count = "SELECT COUNT(*) as total FROM relatorios WHERE 1=1";
+
+// Condições da query (filtros por CPF e datas)
+$condicoes = [];
+$parametros = [];
+$tipos_parametros = '';
+
+// Filtro por CPF
+if (!empty($cpfFiltro)) {
+    $condicoes[] = "usuario_cpf = ?";
+    $parametros[] = $cpfFiltro;
+    $tipos_parametros .= 's';
+}
+
+// Filtro por intervalo de datas
+if (!empty($data_inicio) && !empty($data_fim)) {
+    $condicoes[] = "data BETWEEN ? AND ?";
+    $parametros[] = $data_inicio;
+    $parametros[] = $data_fim;
+    $tipos_parametros .= 'ss';
+}
+
+// Adiciona as condições à query
+if (count($condicoes) > 0) {
+    $sql_count .= " AND " . implode(" AND ", $condicoes);
+}
+
+// Preparar a consulta de contagem
+$stmt_count = $conn->prepare($sql_count);
+
+// Associa parâmetros, se houver filtros
+if (!empty($tipos_parametros)) {
+    $stmt_count->bind_param($tipos_parametros, ...$parametros);
+}
+
+$stmt_count->execute();
+$result_count = $stmt_count->get_result();
+$total_registros = $result_count->fetch_assoc()['total'];
+$total_paginas = ceil($total_registros / $resultados_por_pagina);
+
+// Query para obter os dados paginados
 $sql = "SELECT id, DATE_FORMAT(data, '%d/%m/%Y') as data_formatada, descricao, usuario_cpf FROM relatorios WHERE 1=1";
 
-// Adiciona filtro na query se preenchido
-if (!empty($cpfFiltro)) {
-    $sql .= " AND usuario_cpf = ?";
+// Adiciona as mesmas condições de filtros para a query de dados
+if (count($condicoes) > 0) {
+    $sql .= " AND " . implode(" AND ", $condicoes);
 }
+$sql .= " LIMIT ?, ?";
 
-// Preparar a consulta
+// Preparar a consulta para os dados paginados
 $stmt = $conn->prepare($sql);
 
-// Verifica se o CPF foi preenchido e o associa à consulta
-if (!empty($cpfFiltro)) {
-    $stmt->bind_param("s", $cpfFiltro);
-}
+// Adicionar os parâmetros de filtro e os limites de paginação
+$parametros[] = $offset;
+$parametros[] = $resultados_por_pagina;
+$tipos_parametros .= 'ii';
+$stmt->bind_param($tipos_parametros, ...$parametros);
 
 $stmt->execute();
 $result = $stmt->get_result();
-
-// Feche a conexão após obter os resultados
-$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -137,13 +183,33 @@ $conn->close();
         .filter-form button:hover {
             background-color: #a00;
         }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination a {
+            color: #f1f1f1;
+            background-color: #444;
+            padding: 10px;
+            margin: 0 5px;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .pagination a:hover {
+            background-color: #750a67;
+        }
+        .pagination a.active {
+            background-color: #750a67;
+        }
     </style>
 </head>
 <body>
     <!-- Menu lateral -->
     <div class="sidebar">
         <h2>Painel</h2>
-        <h3>Informações</h2>
+        <h3>Informações</h3>
         <a href="informacoes_pessoais.php">Informações Pessoais</a>
         <a href="editar_perfil.php">Editar Perfil</a>
 
@@ -165,6 +231,12 @@ $conn->close();
             <label for="cpf">CPF:</label>
             <input type="text" name="cpf" id="cpf" placeholder="Digite o CPF" value="<?php echo htmlspecialchars($cpfFiltro); ?>">
             
+            <label for="data_inicio">Data Início:</label>
+            <input type="date" name="data_inicio" id="data_inicio" value="<?php echo htmlspecialchars($data_inicio); ?>">
+            
+            <label for="data_fim">Data Fim:</label>
+            <input type="date" name="data_fim" id="data_fim" value="<?php echo htmlspecialchars($data_fim); ?>">
+
             <button type="submit">Filtrar</button>
         </form>
 
@@ -190,9 +262,32 @@ $conn->close();
                     <?php endwhile; ?>
                 </tbody>
             </table>
+
+            <!-- Controle de paginação -->
+            <div class="pagination">
+                <?php if ($pagina_atual > 1): ?>
+                    <a href="?pagina=<?php echo $pagina_atual - 1; ?>&cpf=<?php echo htmlspecialchars($cpfFiltro); ?>&data_inicio=<?php echo htmlspecialchars($data_inicio); ?>&data_fim=<?php echo htmlspecialchars($data_fim); ?>">&laquo; Página Anterior</a>
+                <?php endif; ?>
+
+                <?php for ($i = 1; $i <= $total_paginas; $i++): ?>
+                    <a href="?pagina=<?php echo $i; ?>&cpf=<?php echo htmlspecialchars($cpfFiltro); ?>&data_inicio=<?php echo htmlspecialchars($data_inicio); ?>&data_fim=<?php echo htmlspecialchars($data_fim); ?>" <?php if ($i == $pagina_atual) echo 'class="active"'; ?>>
+                        <?php echo $i; ?>
+                    </a>
+                <?php endfor; ?>
+
+                <?php if ($pagina_atual < $total_paginas): ?>
+                    <a href="?pagina=<?php echo $pagina_atual + 1; ?>&cpf=<?php echo htmlspecialchars($cpfFiltro); ?>&data_inicio=<?php echo htmlspecialchars($data_inicio); ?>&data_fim=<?php echo htmlspecialchars($data_fim); ?>">Próxima Página &raquo;</a>
+                <?php endif; ?>
+            </div>
         <?php else: ?>
             <p>Nenhum relatório encontrado.</p>
         <?php endif; ?>
     </div>
 </body>
 </html>
+
+<?php
+// Fecha a conexão com o banco de dados
+$conn->close();
+?>
+

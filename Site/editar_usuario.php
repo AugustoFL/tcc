@@ -7,8 +7,6 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || $_SESSI
     exit;
 }
 
-require_once 'conexao.php'; // Arquivo de conexão com o banco de dados
-
 // Verifica o tipo de usuário
 $tipo_usuario = isset($_SESSION['tipo_usuario']) ? $_SESSION['tipo_usuario'] : 'cliente';
 
@@ -17,17 +15,52 @@ if ($tipo_usuario !== 'funcionario') {
     header("Location: painel.php"); // Redireciona para o painel principal se não for funcionário
     exit;
 }
+require_once 'conexao.php';
 
-// Exibir notificação de sucesso se o parâmetro 'updated' estiver presente
-$mensagem_sucesso = '';
-if (isset($_GET['updated']) && $_GET['updated'] == 'true') {
-    $mensagem_sucesso = 'Usuário atualizado com sucesso!';
+// Verifica se o login foi passado como parâmetro na URL
+if (!isset($_GET['login'])) {
+    header("Location: gerenciar_usuarios.php");
+    exit;
 }
 
+$login = $_GET['login'];
 
-// Obtém todos os usuários da tabela
-$query = "SELECT login, tipo_usuario, data_cadastro FROM usuarios";
-$result = $conn->query($query);
+// Se o formulário foi enviado
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $novo_login = $_POST['login'];
+    $novo_tipo_usuario = $_POST['tipo_usuario'];
+
+    // Definir a variável @admin_cpf no MySQL com o CPF do administrador logado
+    $admin_cpf = $_SESSION['user'];
+    $conn->query("SET @admin_cpf = '{$admin_cpf}'");
+
+    // Atualiza o usuário no banco de dados
+    $stmt = $conn->prepare("UPDATE usuarios SET login = ?, tipo_usuario = ? WHERE login = ?");
+    $stmt->bind_param("sss", $novo_login, $novo_tipo_usuario, $login);
+
+    if ($stmt->execute()) {
+        // Redireciona de volta para a página de gerenciamento com uma notificação
+        header("Location: gerenciar_usuarios.php?updated=true");
+        exit;
+    } else {
+        $error = "Erro ao atualizar o usuário.";
+    }
+
+    $stmt->close();
+}
+
+// Obtém os dados do usuário para preencher o formulário
+$stmt = $conn->prepare("SELECT login, tipo_usuario FROM usuarios WHERE login = ?");
+$stmt->bind_param("s", $login);
+$stmt->execute();
+$stmt->bind_result($login_atual, $tipo_usuario_atual);
+$stmt->fetch();
+$stmt->close();
+?>
+
+<!-- HTML permanece o mesmo -->
+
+
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +68,7 @@ $result = $conn->query($query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerenciar Usuários</title>
+    <title>Editar Usuário</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -92,51 +125,49 @@ $result = $conn->query($query);
             margin-bottom: 20px;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
+        form {
+            display: flex;
+            flex-direction: column;
         }
 
-        table, th, td {
-            border: 1px solid #444;
+        label {
+            margin-bottom: 10px;
+            font-size: 16px;
         }
 
-        th, td {
+        input, select {
             padding: 10px;
-            text-align: left;
-        }
-
-        th {
+            margin-bottom: 20px;
+            border-radius: 4px;
+            border: 1px solid #555;
             background-color: #444;
+            color: #f1f1f1;
+            width: 100%;
         }
 
         .btn {
-            padding: 5px 10px;
+            padding: 10px 20px;
             background-color: #750a67;
             color: white;
-            text-decoration: none;
+            border: none;
             border-radius: 4px;
-            margin-right: 10px;
+            cursor: pointer;
         }
 
         .btn:hover {
             background-color: #9b0a88;
         }
 
-        .btn-danger {
-            background-color: #ff5555;
-        }
-
-        .btn-danger:hover {
-            background-color: #ff3333;
+        .error {
+            color: #ff5555;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Menu lateral -->
-    <div class="sidebar">
+   <!-- Menu lateral -->
+   <div class="sidebar">
         <h2>Painel</h2>
         <h3>Informações</h2>
         <a href="informacoes_pessoais.php">Informações Pessoais</a>
@@ -152,38 +183,31 @@ $result = $conn->query($query);
         <a href="logout.php" class="logout-btn">Sair</a>
     </div>
 
-
     <!-- Conteúdo principal -->
     <div class="main-content">
-        <h1>Gerenciar Usuários</h1>
-
-        <?php if (!empty($mensagem_sucesso)): ?>
-    <div class="content-box" style="background-color: #4CAF50; color: white;">
-        <p><?php echo $mensagem_sucesso; ?></p>
-    </div>
-<?php endif; ?>
+        <h1>Editar Usuário: <?php echo htmlspecialchars($login_atual); ?></h1>
 
         <div class="content-box">
-            <h2>Lista de Usuários</h2>
-            <table>
-                <tr>
-                    <th>Login</th>
-                    <th>Tipo de Usuário</th>
-                    <th>Data de Cadastro</th>
-                    <th>Ações</th>
-                </tr>
-                <?php while($row = $result->fetch_assoc()): ?>
-                    <tr>
-                        <td><?php echo $row['login']; ?></td>
-                        <td><?php echo $row['tipo_usuario']; ?></td>
-                        <td><?php echo $row['data_cadastro']; ?></td>
-                        <td>
-                            <a href="editar_usuario.php?login=<?php echo $row['login']; ?>" class="btn">Editar</a>
-                            <a href="deletar_usuario.php?login=<?php echo $row['login']; ?>" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja deletar este usuário?');">Deletar</a>
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
-            </table>
+            <h2>Atualize as informações do usuário</h2>
+
+            <!-- Formulário de edição -->
+            <form method="post">
+                <label for="login">Login:</label>
+                <input type="text" id="login" name="login" value="<?php echo htmlspecialchars($login_atual); ?>" required>
+
+                <label for="tipo_usuario">Tipo de Usuário:</label>
+                <select id="tipo_usuario" name="tipo_usuario">
+                    <option value="cliente" <?php if ($tipo_usuario_atual === 'cliente') echo 'selected'; ?>>Cliente</option>
+                    <option value="funcionario" <?php if ($tipo_usuario_atual === 'funcionario') echo 'selected'; ?>>Funcionário</option>
+                </select>
+
+                <!-- Exibir mensagem de erro, se houver -->
+                <?php if (isset($error)): ?>
+                    <p class="error"><?php echo $error; ?></p>
+                <?php endif; ?>
+
+                <button type="submit" class="btn">Salvar Alterações</button>
+            </form>
         </div>
     </div>
 
