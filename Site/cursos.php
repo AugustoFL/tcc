@@ -426,74 +426,66 @@ button#confirm-enroll-btn:active {
 
     </script>
 
-    <script>
-       // Funções JavaScript para exibir o modal e manipular os cursos
-const modal = document.getElementById('course-modal');
-const modalImage = document.getElementById('modal-image');
-const modalTitle = document.getElementById('modal-title');
-const modalDesc = document.getElementById('modal-desc');
-const modalTime = document.getElementById('modal-time');
-const tipoInscricaoSelect = document.getElementById('tipo-inscricao');
-const closeModalBtn = document.querySelector('.close-btn');
-const confirmEnrollBtn = document.getElementById('confirm-enroll-btn');
+    <!-- Alteração no botão de inscrição no modal -->
+<script>
+    // Funções JavaScript para exibir o modal e manipular os cursos
+    const modal = document.getElementById('course-modal');
+    const modalImage = document.getElementById('modal-image');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDesc = document.getElementById('modal-desc');
+    const modalTime = document.getElementById('modal-time');
+    const tipoInscricaoSelect = document.getElementById('tipo-inscricao');
+    const closeModalBtn = document.querySelector('.close-btn');
+    const confirmEnrollBtn = document.getElementById('confirm-enroll-btn');
 
-let selectedCourseId = null;
+    let selectedCourseId = null;
 
-function openModal(courseId, image, desc, time) {
-    selectedCourseId = courseId;
-    modalImage.src = image;
-    modalTitle.textContent = 'Curso ' + courseId;
-    modalDesc.textContent = desc;
-    modalTime.textContent = time;
-    modal.classList.add('show');
-}
-
-// Fecha o modal
-closeModalBtn.addEventListener('click', function () {
-    modal.classList.remove('show');
-    setTimeout(() => { modal.style.display = 'none'; }, 500);
-});
-
-// Fecha o modal ao clicar fora do conteúdo
-window.addEventListener('click', function (e) {
-    if (e.target === modal) {
-        modal.classList.remove('show');
-        setTimeout(() => { modal.style.display = 'none'; }, 500);
+    function openModal(courseId, image, desc, time) {
+        selectedCourseId = courseId;
+        modalImage.src = image;
+        modalTitle.textContent = 'Curso ' + courseId;
+        modalDesc.textContent = desc;
+        modalTime.textContent = time;
+        modal.classList.add('show');
     }
-});
 
-// Evento de clique no botão "Inscrever-se"
-const enrollButtons = document.querySelectorAll('.enroll-btn');
-enrollButtons.forEach(button => {
-    button.addEventListener('click', function () {
-        const courseId = this.getAttribute('data-course-id');
-        const image = this.getAttribute('data-course-image');
-        const desc = this.getAttribute('data-course-desc');
-        const time = this.getAttribute('data-course-time');
-        openModal(courseId, image, desc, time);
-        modal.style.display = 'flex';
-    });
-});
-
-// Enviar a inscrição quando o usuário confirmar
-confirmEnrollBtn.addEventListener('click', function () {
-    const tipoInscricao = tipoInscricaoSelect.value;
-
-    fetch('inscrever.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: `course_id=${selectedCourseId}&tipo_inscricao=${tipoInscricao}`
-    })
-    .then(response => response.text())
-    .then(data => {
-        alert(data);  // Exibe uma mensagem de sucesso ou erro
+    // Fecha o modal
+    closeModalBtn.addEventListener('click', function () {
         modal.classList.remove('show');
         setTimeout(() => { modal.style.display = 'none'; }, 500);
     });
-});
-    </script>
+
+    // Fecha o modal ao clicar fora do conteúdo
+    window.addEventListener('click', function (e) {
+        if (e.target === modal) {
+            modal.classList.remove('show');
+            setTimeout(() => { modal.style.display = 'none'; }, 500);
+        }
+    });
+
+    // Evento de clique no botão "Inscrever-se"
+    const enrollButtons = document.querySelectorAll('.enroll-btn');
+    enrollButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const courseId = this.getAttribute('data-course-id');
+            const image = this.getAttribute('data-course-image');
+            const desc = this.getAttribute('data-course-desc');
+            const time = this.getAttribute('data-course-time');
+            openModal(courseId, image, desc, time);
+            modal.style.display = 'flex';
+        });
+    });
+
+    // Redirecionar para a página de pré-matrícula quando o usuário confirmar
+    confirmEnrollBtn.addEventListener('click', function () {
+        const tipoInscricao = tipoInscricaoSelect.value;
+        const courseId = selectedCourseId;
+
+        // Redireciona para a nova página pre_matricula.php com os parâmetros
+        window.location.href = `pre_matricula.php?course_id=${courseId}&tipo_inscricao=${tipoInscricao}`;
+    });
+</script>
+
 </body>
 
 </html>
