@@ -1,4 +1,5 @@
 <?php
+
 session_start(); // Inicia a sessão para verificar o login
 
 // Verifica se o usuário está logado

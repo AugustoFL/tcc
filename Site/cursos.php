@@ -1,6 +1,8 @@
 
 <?php 
 session_start();
+
+
 // Inicia a sessão para verificar o login   
 $logged_in = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
 $user = $logged_in ? $_SESSION['user'] : null;

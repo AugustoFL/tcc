@@ -1,11 +1,7 @@
 <?php
 session_start();
 
-// Verifique se o usuário está logado
-if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-    header("Location: login.html");
-    exit;
-}
+
 
 // Verifica o tipo de usuário
 $tipo_usuario = isset($_SESSION['tipo_usuario']) ? $_SESSION['tipo_usuario'] : 'cliente';
