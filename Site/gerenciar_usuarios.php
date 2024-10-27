@@ -210,60 +210,23 @@ $status = isset($row['ativo']) ? $row['ativo'] : 'Indefinido';
         .btn-deactivate:hover { background-color: #da190b; }
 
     
-    /* Modal styles */
-    #userModal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #333;
-            color: #f1f1f1;
-            padding: 20px;
-            border-radius: 8px;
-            z-index: 1000;
-            width: 300px;
-        }
+    .main-content a {
+        text-decoration: none;
+        color: white;
+    }
 
-        #modalOverlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 900;
-        }
+    .main-content a:hover {
+        text-decoration: none;
+        color: purple;
+    }
+        
 
-        .modal-content {
-            text-align: center;
-        }
-
-        .close-btn {
-            cursor: pointer;
-            float: right;
-            font-size: 20px;
-            margin-top: -10px;
-            margin-right: -10px;
-        }
+        
     </style>
 </head>
 <body>
 
-    <!-- Modal -->
-
-<div id="modalOverlay"></div>
-
-<div id="userModal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <img id="userPhoto" src="" alt="User Photo" style="width: 100px; height: 100px; border-radius: 50%;">
-        <h3 id="userName"></h3>
-        <p id="userEmail"></p>
-        <p id="userJoinDate"></p>
-    </div>
-</div>
+  
 
     <!-- Menu lateral -->
     <div class="sidebar">
@@ -308,7 +271,7 @@ $status = isset($row['ativo']) ? $row['ativo'] : 'Indefinido';
                 </tr>
                 <?php while ($row = $result->fetch_assoc()): ?>
                     <tr>
-                    <td><a href="#" onclick="openModal('<?php echo htmlspecialchars($row['login']); ?>'); console.log('Clicked:', '<?php echo htmlspecialchars($row['login']); ?>');"><?php echo htmlspecialchars($row['login']); ?></a></td>
+                    <td><a href="receber_detalhes_gerenciar.php?login=<?php echo urlencode($row['login']); ?>"><?php echo htmlspecialchars($row['login']); ?></a></td>
                     <td><?php echo htmlspecialchars($row['tipo_usuario']); ?></td>
                     <td><?php echo htmlspecialchars($row['data_cadastro']); ?></td>
                     <td><?php echo isset($status) ? ($status ? 'Ativo' : 'Inativo') : 'Indefinido'; ?></td>                
@@ -344,31 +307,6 @@ $status = isset($row['ativo']) ? $row['ativo'] : 'Indefinido';
     </div>
     
 </body>
-<script>
-    function openModal(login) {
-        fetch(`receber_detalhes_gerenciar.php?login=${encodeURIComponent(login)}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    document.getElementById('userPhoto').src = data.photo;
-                    document.getElementById('userName').textContent = data.name;
-                    document.getElementById('userEmail').textContent = data.email;
-                    document.getElementById('userJoinDate').textContent = `Joined: ${data.joinDate}`;
-                    
-                    document.getElementById('userModal').style.display = 'block';
-                    document.getElementById('modalOverlay').style.display = 'block';
-                } else {
-                    console.error('Error: No data received.');
-                }
-            })
-            .catch(error => console.error('Error:', error));
-    }
-
-    function closeModal() {
-        document.getElementById('userModal').style.display = 'none';
-        document.getElementById('modalOverlay').style.display = 'none';
-    }
-</script>
 
 </html>
 
