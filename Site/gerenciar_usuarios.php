@@ -240,8 +240,10 @@ $status = isset($row['ativo']) ? $row['ativo'] : 'Indefinido';
             <h3>Administração</h3>
             <a href="gerenciar_usuarios.php">Gerenciar Usuários</a>
             <a href="relatorio_func.php">Relatórios</a>
+            <a href="gerenciar_cursos.php">Gerenciar Cursos</a>
         <?php endif; ?>
-
+        <br>
+        <a href="index2.php" class="logout-btn">Voltar</a>
         <a href="logout.php" class="logout-btn">Sair</a>
     </div>
 

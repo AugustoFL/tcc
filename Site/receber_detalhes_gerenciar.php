@@ -192,7 +192,6 @@ $tipo = $usuario['tipo_usuario'];
 </head>
 <body>
     
-    <!-- Menu lateral -->
     <div class="sidebar">
         <h2>Painel</h2>
         <h3>Informações</h3>
@@ -204,10 +203,13 @@ $tipo = $usuario['tipo_usuario'];
             <h3>Administração</h3>
             <a href="gerenciar_usuarios.php">Gerenciar Usuários</a>
             <a href="relatorio_func.php">Relatórios</a>
+            <a href="gerenciar_cursos.php">Gerenciar Cursos</a>
         <?php endif; ?>
-
+        <br>
+        <a href="index2.php" class="logout-btn">Voltar</a>
         <a href="logout.php" class="logout-btn">Sair</a>
     </div>
+    
 
     <div class="ficha">
         <div class="foto">
