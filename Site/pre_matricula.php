@@ -319,157 +319,52 @@
             }
 
         }
-
- 
-
-/* Estilização dos inputs radio e checkbox com animação */
-
-input[type="radio"], input[type="checkbox"] {
-
-    appearance: none;
-
-    background-color: #333;
-
-    border: 2px solid #555;
-
-    padding: 10px;
-
-    border-radius: 50%; /* Para radios, o input fica circular */
-
-    display: inline-block;
-
-    position: relative;
-
-    width: 20px;
-
-    height: 20px;
-
-    margin-right: 10px;
-
-    vertical-align: middle; /* Ajusta o alinhamento vertical */
-
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-
-    cursor: pointer;
-
-}
-
- 
-
-input[type="checkbox"] {
-
-    border-radius: 5px; /* Para checkboxes, borda quadrada */
-
-}
-
- 
-
-input[type="radio"]:checked, input[type="checkbox"]:checked {
-
-    background-color: #1e90ff;
-
-    border-color: #1e90ff;
-
-}
-
- 
-
-input[type="radio"]::after, input[type="checkbox"]::after {
-
-    content: '';
-
-    position: absolute;
-
-    width: 8px;
-
-    height: 8px;
-
-    top: 50%;
-
-    left: 50%;
-
-    transform: translate(-50%, -50%) scale(0);
-
-    border-radius: 50%; /* O círculo interno para radios */
-
-    background-color: #ffffff;
-
-    transition: transform 0.2s ease;
-
-}
-
- 
-
-input[type="checkbox"]::after {
-
-    width: 12px;
-
-    height: 12px;
-
-    border-radius: 2px; /* Caixa quadrada para checkbox */
-
-}
-
- 
-
-input[type="radio"]:checked::after, input[type="checkbox"]:checked::after {
-
-    transform: translate(-50%, -50%) scale(1);
-
-}
-
- 
-
-input[type="radio"]:hover, input[type="checkbox"]:hover {
-
-    border-color: #1e90ff;
-
-}
-
- 
-
-/* Para garantir que o label e o input fiquem alinhados usando Flexbox */
-
+/* Estilo e animação do checkbox */
 .label-container {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
 
-    display: flex;
-
-    align-items: center;
-
-    margin-bottom: 15px;
-
-    cursor: pointer;
-
-}
-
- 
-
-label {
-
-    margin-left: 10px; /* Espaçamento entre input e texto */
-
-    font-size: 1rem;
-
-    color: #e0e0e0;
-
-    cursor: pointer;
-
-}
-#setor {
-            width: 100%;
-            padding: 12px;
-            font-size: 1rem;
+        .label-container input[type="checkbox"] {
+            appearance: none;
+            width: 25px;
+            height: 25px;
             background-color: #333;
-            color: #e0e0e0;
-            border: 2px solid #555;
+            border: 2px solid #8B008B;
             border-radius: 5px;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            margin-right: 10px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        #setor:focus {
-            border-color: #1e90ff;
-            box-shadow: 0 0 8px rgba(30, 144, 255, 0.7);
+        .label-container input[type="checkbox"]:checked {
+            background-color: #8B008B;
+            transform: scale(1.1);
         }
+
+        /* Adicionando uma marca de seleção animada */
+        .label-container input[type="checkbox"]::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            background-color: white;
+            border-radius: 2px;
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0);
+            transition: all 0.2s ease;
+        }
+
+        .label-container input[type="checkbox"]:checked::after {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        
     </style>
 
 </head>
@@ -614,25 +509,24 @@ label {
 
         <label for="nome">Nome Completo (Obrigatório)</label>
 
-        <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo" required>
+        <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo" maxlength="100" required>
 
  
 
         <label for="cpf">CPF (Apenas números, obrigatório)</label>
 
-        <input type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" required>
+        <input type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" maxlength="14" required>
 
  
 
         <label for="rg">RG (Obrigatório)</label>
 
-        <input type="text" id="rg" name="rg" placeholder="Digite seu RG" required>
+        <input type="text" id="rg" name="rg" placeholder="Digite seu RG" maxlength="12" required>
 
  
 
         <label for="data-nascimento">Data de Nascimento (Obrigatório)</label>
-
-        <input type="date" id="data-nascimento" name="data-nascimento" required>
+        <input type="text" id="data-nascimento" name="data-nascimento" placeholder="DD/MM/AAAA" maxlength="10" required>
 
  
 
@@ -644,7 +538,7 @@ label {
 
         <label for="telefone">Telefone (WhatsApp) (Apenas números, obrigatório)</label>
 
-        <input type="text" id="telefone" name="telefone" placeholder="Digite seu telefone no formato 14999995555" required>
+        <input type="text" id="telefone" name="telefone" placeholder="Digite seu telefone no formato 14999995555" maxlength="15" required>
 
  
 
@@ -662,7 +556,7 @@ label {
 
         <label for="nome-responsavel">Nome Completo do Responsável (Opcional para menores de 18 anos)</label>
 
-        <input type="text" id="nome-responsavel" name="nome-responsavel" placeholder="Digite o nome do responsável">
+        <input type="text" id="nome-responsavel" name="nome-responsavel" placeholder="Digite o nome do responsável" maxlength="100">
 
  
 
@@ -674,147 +568,77 @@ label {
 
  
 
-<!-- Página 3 - Sobre o Trabalho -->
-
-<div class="form-page" id="page3">
-
-    <h2>Sobre O Trabalho</h2>
-
-    <label>Informe Sobre A Sua Atividade De Trabalho</label>
-
-    <p>Você Trabalha? (Obrigatório)</p>
-
-    <div class="label-container">
-
-        <input type="radio" id="trabalha_sim" name="trabalho" value="Sim" required>
-
-        <label for="trabalha_sim">Sim</label>
-
-    </div>
-
-    <div class="label-container">
-
-        <input type="radio" id="trabalha_nao" name="trabalho" value="Não" required>
-
-        <label for="trabalha_nao">Não</label>
-
-    </div>
-
-    <button type="button" onclick="prevPage()">Anterior</button>
-
-    <button type="button" onclick="submitWorkAnswer()">Próximo</button>
-
-</div>
-
- 
-
-    <!-- Página 4 - Detalhes do Trabalho -->
-
-<div class="form-page" id="page4">
-
-    <h2>Detalhes do Trabalho</h2>
-
-    <div class="label-container">
-
-        <input type="checkbox" id="manha" name="periodo_trabalho" value="Manhã">
-
-        <label for="manha">Manhã</label>
-
-    </div>
-
-    <div class="label-container">
-
-        <input type="checkbox" id="tarde" name="periodo_trabalho" value="Tarde">
-
-        <label for="tarde">Tarde</label>
-
-    </div>
-
-    <div class="label-container">
-
-        <input type="checkbox" id="noite" name="periodo_trabalho" value="Noite">
-
-        <label for="noite">Noite</label>
-
-    </div>
-
-    <div class="label-container">
-
-        <input type="checkbox" id="flexivel" name="periodo_trabalho" value="Flexível">
-
-        <label for="flexivel">Flexível</label>
-
-    </div>
-
- 
-
-    <label for="setor">Setor De Atuação (Obrigatório)</label><br>
-
-    <select id="setor" name="setor" required>
-
-        <option value="Indústria">Indústria</option>
-
-        <option value="Comércio">Comércio</option>
-
-        <option value="Serviços">Serviços</option>
-
-        <option value="Agricultura">Agricultura</option>
-
-        <option value="Construção">Construção</option>
-
-        <option value="Servidor Público">Servidor Público</option>
-
-        <option value="Outro">Outro</option>
-
-    </select>
-
-    <label for="outroSetor">Se "Outro", descreva:</label>
-
-    <input type="text" id="outroSetor" name="outroSetor" placeholder="Descreva outro setor"><br>
-
-    <label for="local">Local De Trabalho (Não obrigatório)</label>
-
-    <input type="text" id="local" name="local" placeholder="Digite o local de trabalho"><br>
-
- 
-
-    <button type="button" onclick="prevPage()">Anterior</button>
-
-    <button type="button" onclick="nextPage()">Próximo</button>
-
-</div>
-
-    <!-- Página 5 - Sobre o Estudo -->
-
-    <div class="form-page" id="page5">
-
-        <h2>Sobre O Estudo</h2>
-
-        <label>Informe Sobre A Sua Atividade De Estudo</label>
-
-        <p>Você Estuda? (Obrigatório)</p>
-
-        <input type="radio" id="estuda_sim" name="estudo" value="Sim" required> Sim<br>
-
-        <input type="radio" id="estuda_nao" name="estudo" value="Não" required> Não<br>
-
+    <div class="form-page" id="page3">
+        <h2>Período Disponível para as Aulas</h2>
+        <label>Qual o Período Disponível para as Aulas? *</label>
+        <div class="label-container">
+            <input type="checkbox" id="manha" name="periodo_aulas" value="Manhã">
+            <label for="manha">Manhã (7h-12h)</label>
+        </div>
+        <div class="label-container">
+            <input type="checkbox" id="tarde" name="periodo_aulas" value="Tarde">
+            <label for="tarde">Tarde (13h-18h)</label>
+        </div>
+        <div class="label-container">
+            <input type="checkbox" id="noite" name="periodo_aulas" value="Noite">
+            <label for="noite">Noite (18h-22h)</label>
+        </div>
+        
+        <h2>Termo de Autorização de Uso de Imagem</h2>
+        <div class="label-container">
+            <input type="checkbox" id="uso-imagem" name="uso-imagem" required>
+            <label for="uso-imagem">Pelo presente e até expressa revogação por escrito CONCEDO a Secretaria de Cultura, o direito de utilizar gratuitamente o som de minha voz e a minha imagem, conforme artigo 5º, X, CF e artigos 20º, 22º, 24º, 25º, 49º, a 56º da Lei 5250-67 – Lei de Imprensa e demais dispositivos em vigor. Informo ainda que tudo que declarei foi espontâneo, sem interferência e sobretudo representa a verdade.</label>
+        </div>
+        
         <button type="button" onclick="prevPage()">Anterior</button>
-
-        <button type="button" onclick="nextPage()">Próximo</button>
-
+        <button type="button" onclick="submitForm()">Enviar</button>
     </div>
-
- 
-
 </div>
 
+            <script>
+        // Aplica máscara ao CPF no formato "XXX.XXX.XXX-XX"
+        document.getElementById('cpf').addEventListener('input', function (e) {
+            e.target.value = e.target.value
+                .replace(/\D/g, '') // Remove tudo que não é dígito
+                .replace(/(\d{3})(\d)/, '$1.$2') // Adiciona ponto entre o terceiro e quarto dígitos
+                .replace(/(\d{3})(\d)/, '$1.$2') // Adiciona outro ponto entre o sexto e sétimo dígitos
+                .replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // Adiciona hífen entre o nono e décimo dígitos
+        });
+
+        // Aplica máscara ao RG no formato "XX.XXX.XXX-X"
+        document.getElementById('rg').addEventListener('input', function (e) {
+            e.target.value = e.target.value
+                .replace(/\D/g, '') // Remove tudo que não é dígito
+                .replace(/(\d{2})(\d)/, '$1.$2') // Adiciona ponto entre o segundo e terceiro dígitos
+                .replace(/(\d{3})(\d)/, '$1.$2') // Adiciona ponto entre o quinto e sexto dígitos
+                .replace(/(\d{3})(\d{1})$/, '$1-$2'); // Adiciona hífen no final
+        });
+
+        // Aplica máscara para telefone no formato "(XX) XXXXX-XXXX"
+        document.getElementById('telefone').addEventListener('input', function (e) {
+            e.target.value = e.target.value
+                .replace(/\D/g, '') // Remove tudo que não é dígito
+                .replace(/(\d{2})(\d)/, '($1) $2') // Adiciona parênteses nos dois primeiros dígitos
+                .replace(/(\d{5})(\d)/, '$1-$2') // Adiciona hífen após o quinto dígito
+                .replace(/(-\d{4})\d+?$/, '$1'); // Limita em nove dígitos no total
+        });
+
+        // Aplica máscara para data de nascimento no formato "DD/MM/AAAA"
+        document.getElementById('data-nascimento').addEventListener('input', function (e) {
+            e.target.value = e.target.value
+                .replace(/\D/g, '') // Remove tudo que não é dígito
+                .replace(/(\d{2})(\d)/, '$1/$2') // Adiciona barra após o dia
+                .replace(/(\d{2})(\d)/, '$1/$2') // Adiciona barra após o mês
+                .replace(/(\d{4})\d+?$/, '$1'); // Limita em oito dígitos (DD/MM/AAAA)
+        });
+    </script>
  
 
 <script>
 
     let currentPage = 1;
 
-    const totalPages = 5; // Número de páginas implementadas
+    const totalPages = 3; // Número de páginas implementadas
 
  
 
@@ -884,8 +708,6 @@ label {
 
         }
 
- 
-
         if (currentPage < totalPages) {
 
             currentPage++;
@@ -895,8 +717,6 @@ label {
         }
 
     }
-
- 
 
     function prevPage() {
 
@@ -909,28 +729,6 @@ label {
         }
 
     }
-
- 
-
-    function submitWorkAnswer() {
-
-        const trabalhaSim = document.getElementById('trabalha_sim').checked;
-
-        if (trabalhaSim) {
-
-            currentPage = 4; // Ir para a página de detalhes do trabalho
-
-        } else {
-
-            currentPage = 5; // Pular para a página de estudo
-
-        }
-
-        showPage(currentPage, 'next');
-
-    }
-
- 
 
     showPage(currentPage, 'next');
 
