@@ -28,8 +28,6 @@
 
         }
 
- 
-
         h1, h2 {
 
             text-align: center;
@@ -37,8 +35,6 @@
             color: #ffffff;
 
         }
-
- 
 
         h1 {
 
@@ -48,8 +44,6 @@
 
         }
 
- 
-
         h2 {
 
             margin-bottom: 15px;
@@ -57,8 +51,6 @@
             font-size: 1.5rem;
 
         }
-
- 
 
         /* Exibir o nome do curso selecionado */
 
@@ -73,8 +65,6 @@
             margin-bottom: 20px;
 
         }
-
- 
 
         /* Contêiner do formulário */
 
@@ -94,8 +84,6 @@
 
         }
 
- 
-
         label {
 
             display: block;
@@ -107,8 +95,6 @@
             color: #e0e0e0;
 
         }
-
- 
 
         input, select, textarea {
 
@@ -132,8 +118,6 @@
 
         }
 
- 
-
         input:focus, select:focus, textarea:focus {
 
             border-color: #8B008B;
@@ -143,8 +127,6 @@
             outline: none;
 
         }
-
- 
 
         /* Botões de navegação */
 
@@ -168,23 +150,17 @@
 
         }
 
- 
-
         button:hover {
 
             background-color: #8B008B;
 
         }
 
- 
-
         button:active {
 
             transform: scale(0.98);
 
         }
-
- 
 
         /* Ocultar páginas do formulário por padrão */
 
@@ -200,8 +176,6 @@
 
         }
 
- 
-
         /* Página ativa */
 
         .form-page.active {
@@ -214,8 +188,6 @@
 
         }
 
- 
-
         /* Estilização da lista na primeira página */
 
         ul {
@@ -225,8 +197,6 @@
             padding: 0;
 
         }
-
- 
 
         ul li {
 
@@ -242,8 +212,6 @@
 
         }
 
- 
-
         /* Estilo de erro */
 
         .error {
@@ -258,8 +226,6 @@
 
         }
 
- 
-
         /* Animação suave de transição entre páginas */
 
         .slide-in-left {
@@ -268,15 +234,11 @@
 
         }
 
- 
-
         .slide-in-right {
 
             animation: slideInRight 0.5s forwards;
 
         }
-
- 
 
         @keyframes slideInLeft {
 
@@ -298,8 +260,6 @@
 
         }
 
- 
-
         @keyframes slideInRight {
 
             0% {
@@ -319,59 +279,92 @@
             }
 
         }
+
 /* Estilo e animação do checkbox */
+
 .label-container {
+
             display: flex;
+
             align-items: center;
+
             margin: 10px 0;
+
         }
 
         .label-container input[type="checkbox"] {
+
             appearance: none;
+
             width: 25px;
+
             height: 25px;
+
             background-color: #333;
+
             border: 2px solid #8B008B;
+
             border-radius: 5px;
+
             margin-right: 10px;
+
             position: relative;
+
             cursor: pointer;
+
             transition: all 0.3s ease;
+
         }
 
         .label-container input[type="checkbox"]:checked {
+
             background-color: #8B008B;
+
             transform: scale(1.1);
+
         }
 
         /* Adicionando uma marca de seleção animada */
+
         .label-container input[type="checkbox"]::after {
+
             content: '';
+
             position: absolute;
+
             top: 50%;
+
             left: 50%;
+
             width: 10px;
+
             height: 10px;
+
             background-color: white;
+
             border-radius: 2px;
+
             opacity: 0;
+
             transform: translate(-50%, -50%) scale(0);
+
             transition: all 0.2s ease;
+
         }
 
         .label-container input[type="checkbox"]:checked::after {
+
             opacity: 1;
+
             transform: translate(-50%, -50%) scale(1);
+
         }
 
-        
     </style>
 
 </head>
 
 <body>
-
- 
 
 <div class="form-container">
 
@@ -385,21 +378,17 @@
 
         // Conectar ao banco de dados
 
-        $servername = "localhost"; // Substitua pelo seu servidor
+        $servername = "localhost"; 
 
-        $username = "root"; // Substitua pelo seu usuário
+        $username = "root"; 
 
-        $password = ""; // Substitua pela sua senha
+        $password = ""; 
 
         $dbname = "escolamusica";
-
- 
 
         // Criar a conexão
 
         $conn = new mysqli($servername, $username, $password, $dbname);
-
- 
 
         // Verificar conexão
 
@@ -409,15 +398,11 @@
 
         }
 
- 
-
         // Obter os parâmetros da URL
 
         $course_id = isset($_GET['course_id']) ? $_GET['course_id'] : null;
 
         $tipo_inscricao = isset($_GET['tipo_inscricao']) ? $_GET['tipo_inscricao'] : null;
-
- 
 
         // Buscar o nome do curso baseado no course_id
 
@@ -437,8 +422,6 @@
 
             $stmt->close();
 
- 
-
             // Verificar se o nome do curso foi encontrado
 
             if ($nome_curso && $tipo_inscricao) {
@@ -457,8 +440,6 @@
 
         }
 
- 
-
         // Fechar a conexão
 
         $conn->close();
@@ -467,7 +448,11 @@
 
     </div>
 
- 
+    <form method="POST" enctype="multipart/form-data">
+
+    <input type="hidden" name="course_id" value="<?php echo htmlspecialchars($course_id); ?>">
+
+    <input type="hidden" name="tipo_inscricao" value="<?php echo htmlspecialchars($tipo_inscricao); ?>">
 
     <!-- Primeira Página -->
 
@@ -499,8 +484,6 @@
 
     </div>
 
- 
-
     <!-- Segunda Página -->
 
     <div class="form-page" id="page2">
@@ -511,54 +494,37 @@
 
         <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo" maxlength="100" required>
 
- 
-
         <label for="cpf">CPF (Apenas números, obrigatório)</label>
 
         <input type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" maxlength="14" required>
-
- 
 
         <label for="rg">RG (Obrigatório)</label>
 
         <input type="text" id="rg" name="rg" placeholder="Digite seu RG" maxlength="12" required>
 
- 
-
         <label for="data-nascimento">Data de Nascimento (Obrigatório)</label>
-        <input type="text" id="data-nascimento" name="data-nascimento" placeholder="DD/MM/AAAA" maxlength="10" required>
 
- 
+        <input type="text" id="data-nascimento" name="data-nascimento" placeholder="DD/MM/AAAA" maxlength="10" required>
 
         <label for="doc-identificacao">Anexar Documento de Identificação com Foto (PDF, DOC, JPG, máximo 10MB, obrigatório)</label>
 
         <input type="file" id="doc-identificacao" name="doc-identificacao" accept=".pdf,.doc,.jpg,.jpeg,.png" required>
 
- 
-
         <label for="telefone">Telefone (WhatsApp) (Apenas números, obrigatório)</label>
 
         <input type="text" id="telefone" name="telefone" placeholder="Digite seu telefone no formato 14999995555" maxlength="15" required>
-
- 
 
         <label for="endereco">Endereço Completo (Rua, Número, Bairro, CEP, obrigatório)</label>
 
         <input type="text" id="endereco" name="endereco" placeholder="Digite seu endereço completo" required>
 
- 
-
         <label for="comprovante-endereco">Anexar Comprovante de Endereço (PDF, DOC, JPG, máximo 10MB, obrigatório)</label>
 
         <input type="file" id="comprovante-endereco" name="comprovante-endereco" accept=".pdf,.doc,.jpg,.jpeg,.png" required>
 
- 
-
         <label for="nome-responsavel">Nome Completo do Responsável (Opcional para menores de 18 anos)</label>
 
         <input type="text" id="nome-responsavel" name="nome-responsavel" placeholder="Digite o nome do responsável" maxlength="100">
-
- 
 
         <button type="button" onclick="prevPage()">Anterior</button>
 
@@ -566,81 +532,131 @@
 
     </div>
 
- 
-
     <div class="form-page" id="page3">
+
         <h2>Período Disponível para as Aulas</h2>
-        <label>Qual o Período Disponível para as Aulas? *</label>
+
+        <label>Qual o Período Disponível para as Aulas? (Obrigatório)</label>
+
         <div class="label-container">
-            <input type="checkbox" id="manha" name="periodo_aulas" value="Manhã">
+
+            <input type="checkbox" id="manha" name="periodo_aulas[]" value="Manhã">
+
             <label for="manha">Manhã (7h-12h)</label>
+
         </div>
+
         <div class="label-container">
-            <input type="checkbox" id="tarde" name="periodo_aulas" value="Tarde">
+
+            <input type="checkbox" id="tarde" name="periodo_aulas[]" value="Tarde">
+
             <label for="tarde">Tarde (13h-18h)</label>
+
         </div>
+
         <div class="label-container">
-            <input type="checkbox" id="noite" name="periodo_aulas" value="Noite">
+
+            <input type="checkbox" id="noite" name="periodo_aulas[]" value="Noite">
+
             <label for="noite">Noite (18h-22h)</label>
+
         </div>
-        
+
         <h2>Termo de Autorização de Uso de Imagem</h2>
+
         <div class="label-container">
+
             <input type="checkbox" id="uso-imagem" name="uso-imagem" required>
+
             <label for="uso-imagem">Pelo presente e até expressa revogação por escrito CONCEDO a Secretaria de Cultura, o direito de utilizar gratuitamente o som de minha voz e a minha imagem, conforme artigo 5º, X, CF e artigos 20º, 22º, 24º, 25º, 49º, a 56º da Lei 5250-67 – Lei de Imprensa e demais dispositivos em vigor. Informo ainda que tudo que declarei foi espontâneo, sem interferência e sobretudo representa a verdade.</label>
+
         </div>
-        
+
         <button type="button" onclick="prevPage()">Anterior</button>
-        <button type="button" onclick="submitForm()">Enviar</button>
+
+        <button type="submit">Enviar</button>
+
     </div>
+
+    </form>
+
 </div>
 
             <script>
+
+        //MÁSCARAS
+
         // Aplica máscara ao CPF no formato "XXX.XXX.XXX-XX"
+
         document.getElementById('cpf').addEventListener('input', function (e) {
+
             e.target.value = e.target.value
+
                 .replace(/\D/g, '') // Remove tudo que não é dígito
+
                 .replace(/(\d{3})(\d)/, '$1.$2') // Adiciona ponto entre o terceiro e quarto dígitos
+
                 .replace(/(\d{3})(\d)/, '$1.$2') // Adiciona outro ponto entre o sexto e sétimo dígitos
+
                 .replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // Adiciona hífen entre o nono e décimo dígitos
+
         });
 
         // Aplica máscara ao RG no formato "XX.XXX.XXX-X"
+
         document.getElementById('rg').addEventListener('input', function (e) {
+
             e.target.value = e.target.value
+
                 .replace(/\D/g, '') // Remove tudo que não é dígito
+
                 .replace(/(\d{2})(\d)/, '$1.$2') // Adiciona ponto entre o segundo e terceiro dígitos
+
                 .replace(/(\d{3})(\d)/, '$1.$2') // Adiciona ponto entre o quinto e sexto dígitos
+
                 .replace(/(\d{3})(\d{1})$/, '$1-$2'); // Adiciona hífen no final
+
         });
 
         // Aplica máscara para telefone no formato "(XX) XXXXX-XXXX"
+
         document.getElementById('telefone').addEventListener('input', function (e) {
+
             e.target.value = e.target.value
+
                 .replace(/\D/g, '') // Remove tudo que não é dígito
+
                 .replace(/(\d{2})(\d)/, '($1) $2') // Adiciona parênteses nos dois primeiros dígitos
+
                 .replace(/(\d{5})(\d)/, '$1-$2') // Adiciona hífen após o quinto dígito
+
                 .replace(/(-\d{4})\d+?$/, '$1'); // Limita em nove dígitos no total
+
         });
 
         // Aplica máscara para data de nascimento no formato "DD/MM/AAAA"
+
         document.getElementById('data-nascimento').addEventListener('input', function (e) {
+
             e.target.value = e.target.value
+
                 .replace(/\D/g, '') // Remove tudo que não é dígito
+
                 .replace(/(\d{2})(\d)/, '$1/$2') // Adiciona barra após o dia
+
                 .replace(/(\d{2})(\d)/, '$1/$2') // Adiciona barra após o mês
+
                 .replace(/(\d{4})\d+?$/, '$1'); // Limita em oito dígitos (DD/MM/AAAA)
+
         });
+
     </script>
- 
 
 <script>
 
     let currentPage = 1;
 
     const totalPages = 3; // Número de páginas implementadas
-
- 
 
     function showPage(page, direction) {
 
@@ -657,8 +673,6 @@
         currentPageElement.classList.add('active', animationClass);
 
     }
-
- 
 
     function nextPage() {
 
@@ -696,8 +710,6 @@
 
             const comprovanteEndereco = document.getElementById('comprovante-endereco').value;
 
- 
-
             if (!nome || !cpf || !rg || !dataNascimento || !docIdentificacao || !telefone || !endereco || !comprovanteEndereco) {
 
                 alert('Por favor, preencha todos os campos obrigatórios.');
@@ -734,8 +746,64 @@
 
 </script>
 
- 
+<?php
+// Configuração de conexão
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "escolamusica";
 
+// Estabelece a conexão com o banco de dados
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Verifica a conexão
+if ($conn->connect_error) {
+    die("Falha na conexão: " . $conn->connect_error);
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Captura dos dados enviados
+    $email = $_POST['email'];
+    $nome = $_POST['nome'];
+    $cpf = $_POST['cpf'];
+    $rg = $_POST['rg'];
+
+    // Converte a data de DD/MM/AAAA para o formato YYYY-MM-DD
+    $data_nascimento = $_POST['data-nascimento'];
+    $data_nascimento = DateTime::createFromFormat('d/m/Y', $data_nascimento)->format('Y-m-d');
+
+    $telefone = $_POST['telefone'];
+    $endereco = $_POST['endereco'];
+
+    // Concatena os valores dos checkboxes
+    $periodo_aulas = isset($_POST['periodo_aulas']) 
+        ? implode(", ", $_POST['periodo_aulas']) 
+        : '';
+
+    $course_id = $_POST['course_id'];
+    $tipo_inscricao = $_POST['tipo_inscricao'];
+
+    // SQL para inserir dados no banco
+    $sql = "INSERT INTO pre_matricula (email, nome, cpf, rg, data_nascimento, telefone, endereco, periodo_aulas, course_id, tipo_inscricao)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    // Preparar e executar a inserção
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssssssssss", $email, $nome, $cpf, $rg, $data_nascimento, $telefone, $endereco, $periodo_aulas, $course_id, $tipo_inscricao);
+
+    if ($stmt->execute()) {
+        echo "<script>alert('Dados enviados com sucesso!');</script>";
+    } else {
+        echo "<script>alert('Erro ao enviar os dados.');</script>";
+    }
+
+    // Fecha o statement
+    $stmt->close();
+}
+
+// Fecha a conexão apenas após a inserção ser concluída
+$conn->close();
+
+?>
 </body>
-
 </html>
