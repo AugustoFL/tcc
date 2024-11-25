@@ -325,21 +325,34 @@ button#confirm-enroll-btn:active {
     <section id="home" class="section">
         <div class="background"></div> 
         <!-- Navbar -->
-        <div class="navbar">
-            <div class="logo"> <a href="#home" style="color: #fff; font-weight: bold; text-decoration: none;">Logo</a></div>
-            <ul>
-                <li><a href="#home">Início</a></li>
-                <li><a href="#about">Sobre</a></li>
-                <li><a href="#contact">Contato</a></li>
-            </ul>
-            <?php if ($logged_in): ?>
-                <div class="user-menu"> <button class="user-icon">👤</button>
-                    <div class="user-dropdown"> <a href="painelUsuario.php">Painel do Usuário</a> <a href="logout.php">Sair</a> </div>
-                </div> 
-            <?php else: ?>
-                <div class="login-btn"> <a href="login.html">Login</a> </div>
-            <?php endif; ?>
+    <div class="navbar">
+        <div class="logo">
+            <a href="#home" style="color: #fff; font-weight: bold; text-decoration: none;">Logo</a>
         </div>
+        <ul>
+            <li><a href="index2.php#home">Início</a></li>
+            <li><a href="index2.php#about">Sobre</a></li>
+            <li><a href="index2.php#contact">Contato</a></li>
+        </ul>
+
+          <!-- Exibe o ícone de usuário se estiver logado, caso contrário exibe o botão de login -->
+        <?php if ($logged_in): ?>
+            <div class="user-menu">
+                <button class="user-icon">👤</button>
+                <div class="user-dropdown">
+                    <a href="painelUsuario.php">Painel do Usuário</a>
+                   <!-- <//?php if ($tipo_usuario === 'funcionario'): ?>
+                        <a href="#">Painel do Funcionário</a>
+                    <//?php endif; ?> -->
+                    <a href="logout.php">Sair</a>
+                </div>
+            </div>
+        <?php else: ?>
+            <div class="login-btn">
+                <a href="login.html">Login</a>
+            </div>
+        <?php endif; ?>
+    </div>
 
         <!-- CURSOS -->
         <div class="courses-container">

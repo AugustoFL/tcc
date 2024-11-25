@@ -382,6 +382,7 @@ var_dump($_SESSION['tipo_usuario']); // Verifica o valor de tipo_usuario
         </div>
         <ul>
             <li><a href="#home">Início</a></li>
+            <li><a href="#courses">Cursos</a></li>
             <li><a href="#about">Sobre</a></li>
             <li><a href="#contact">Contato</a></li>
         </ul>
