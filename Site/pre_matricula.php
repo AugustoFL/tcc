@@ -1,3 +1,29 @@
+<?php 
+session_start();
+
+
+// Inicia a sessão para verificar o login   
+$logged_in = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
+$user = $logged_in ? $_SESSION['user'] : null;
+$tipo_usuario = isset($_SESSION['tipo_usuario']) ? $_SESSION['tipo_usuario'] : null;
+
+// Conexão com o banco de dados (usando MySQLi)
+$host = 'localhost'; // Endereço do servidor
+$dbname = 'escolamusica'; // Nome do banco de dados
+$user_db = 'root'; // Usuário do banco de dados
+$pass_db = ''; // Senha do banco de dados
+
+$conn = new mysqli($host, $user_db, $pass_db, $dbname);
+
+if ($conn->connect_error) {
+    die("Erro ao conectar: " . $conn->connect_error);
+}
+
+// Consulta SQL para buscar os cursos
+$sql = "SELECT * FROM cursos";
+$result = $conn->query($sql);
+?>
+
 <!DOCTYPE html>
 
 <html lang="pt-br">
@@ -190,7 +216,7 @@
 
         /* Estilização da lista na primeira página */
 
-        ul {
+        ul.form {
 
             list-style-type: none;
 
@@ -198,7 +224,7 @@
 
         }
 
-        ul li {
+        ul.form li.form1 {
 
             padding: 10px;
 
@@ -360,11 +386,120 @@
 
         }
 
+        /* Ajuste da Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: rgb(0, 0, 0);
+            position: fixed;
+            width: 98%;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .navbar ul.nav1 {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar ul.nav1 li.nav {
+            margin-left: 20px;
+        }
+
+        .navbar ul.nav1 li.nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-btn,
+        .user-icon {
+            padding: 10px 20px;
+            background-color: #fafafa;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-btn:hover,
+        .user-icon:hover {
+            background-color: #750a67;
+            color: #fafafa;
+        }
+
+        .user-menu {
+            position: relative;
+            display: inline-block;
+        }
+
+        .user-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: #f9f9f9;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            width: 200px;
+        }
+
+        .user-dropdown a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .user-dropdown a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .user-menu:hover .user-dropdown {
+            display: block;
+        }
+
     </style>
 
 </head>
 
 <body>
+            <!-- Navbar -->
+            <div class="navbar">
+        <div class="logo">
+            <a href="#home" style="color: #fff; font-weight: bold; text-decoration: none;">Logo</a>
+        </div>
+        <ul class="nav1">
+            <li class="nav"><a href="">Início</a></li>
+            <li class="nav"><a href="">Sobre</a></li>
+            <li class="nav"><a href="">Contato</a></li>
+        </ul>
+
+          <!-- Exibe o ícone de usuário se estiver logado, caso contrário exibe o botão de login -->
+        <?php if ($logged_in): ?>
+            <div class="user-menu">
+                <button class="user-icon">👤</button>
+                <div class="user-dropdown">
+                    <a href="painelUsuario.php">Painel do Usuário</a>
+                   <!-- <//?php if ($tipo_usuario === 'funcionario'): ?>
+                        <a href="#">Painel do Funcionário</a>
+                    <//?php endif; ?> -->
+                    <a href="logout.php">Sair</a>
+                </div>
+            </div>
+        <?php else: ?>
+            <div class="login-btn">
+                <a href="login.html">Login</a>
+            </div>
+        <?php endif; ?>
+    </div>
 
 <div class="form-container">
 
@@ -399,11 +534,9 @@
         }
 
         // Obter os parâmetros da URL
-
         $course_id = isset($_GET['course_id']) ? $_GET['course_id'] : null;
-
         $tipo_inscricao = isset($_GET['tipo_inscricao']) ? $_GET['tipo_inscricao'] : null;
-
+        $cpf = $logged_in ? $_SESSION['user'] : null;
         // Buscar o nome do curso baseado no course_id
 
         if ($course_id) {
@@ -462,15 +595,15 @@
 
         <p>Este formulário foi criado para tornar mais simples o processo de inscrição na Escola de Música de Ourinhos.</p>
 
-        <ul>
+        <ul class="form">
 
-            <li>Preenchimento do Formulário</li>
+            <li class="form1">Preenchimento do Formulário</li>
 
-            <li>Confirmação via WhatsApp</li>
+            <li class="form1">Confirmação via WhatsApp</li>
 
-            <li>Verificação de Vagas</li>
+            <li class="form1">Verificação de Vagas</li>
 
-            <li>Lista de Espera e Confirmação de Matrícula</li>
+            <li class="form1">Lista de Espera e Confirmação de Matrícula</li>
 
         </ul>
 
@@ -494,9 +627,14 @@
 
         <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo" maxlength="100" required>
 
-        <label for="cpf">CPF (Apenas números, obrigatório)</label>
+        <?php
+        function formatCpf($cpf) {
+        return preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "$1.$2.$3-$4", $cpf);
+        }
+        ?>
 
-        <input type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" maxlength="14" required>
+        <label for="cpf">CPF</label>
+        <input type="text" id="cpf" name="cpf" value="<?php echo htmlspecialchars(formatCpf($cpf)); ?>" readonly>
 
         <label for="rg">RG (Obrigatório)</label>
 
@@ -583,11 +721,7 @@
 </div>
 
             <script>
-
-        //MÁSCARAS
-
         // Aplica máscara ao CPF no formato "XXX.XXX.XXX-XX"
-
         document.getElementById('cpf').addEventListener('input', function (e) {
 
             e.target.value = e.target.value
@@ -765,7 +899,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Captura dos dados enviados
     $email = $_POST['email'];
     $nome = $_POST['nome'];
-    $cpf = $_POST['cpf'];
+    $cpf = $logged_in ? $_SESSION['user'] : null;
     $rg = $_POST['rg'];
 
     // Converte a data de DD/MM/AAAA para o formato YYYY-MM-DD
@@ -781,20 +915,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         : '';
 
     $course_id = $_POST['course_id'];
-    $tipo_inscricao = $_POST['tipo_inscricao'];
+    $tipo_curso = $_POST['tipo_inscricao']; // Agora mapeado diretamente para `tipo_curso`
 
-    // SQL para inserir dados no banco
-    $sql = "INSERT INTO pre_matricula (email, nome, cpf, rg, data_nascimento, telefone, endereco, periodo_aulas, course_id, tipo_inscricao)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    // Defina o status inicial como 'Formulario'
+    $status = 'Formulario';
+
+    // SQL para inserir dados na tabela `matricula`
+    $sql = "INSERT INTO matricula (nome, email, telefone, cpf, rg, data_nascimento, endereco, periodo_aulas, course_id, tipo_curso, status)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     // Preparar e executar a inserção
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssssssss", $email, $nome, $cpf, $rg, $data_nascimento, $telefone, $endereco, $periodo_aulas, $course_id, $tipo_inscricao);
+    $stmt->bind_param("sssssssssss", $nome, $email, $telefone, $cpf, $rg, $data_nascimento, $endereco, $periodo_aulas, $course_id, $tipo_curso, $status);
 
     if ($stmt->execute()) {
         echo "<script>alert('Dados enviados com sucesso!');</script>";
     } else {
-        echo "<script>alert('Erro ao enviar os dados.');</script>";
+        echo "<script>alert('Erro ao enviar os dados: " . $stmt->error . "');</script>";
     }
 
     // Fecha o statement
@@ -803,7 +940,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Fecha a conexão apenas após a inserção ser concluída
 $conn->close();
-
 ?>
 </body>
 </html>

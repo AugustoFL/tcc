@@ -364,11 +364,14 @@ button#confirm-enroll-btn:active {
                             <img src="path/to/image.jpg" alt="Curso <?php echo $row['nome']; ?>" class="course-image">
                             <h3><?php echo $row['nome']; ?></h3>
                             <p><?php echo $row['descricao']; ?></p>
-                            <button class="enroll-btn" data-course-id="<?php echo $row['id']; ?>"
-                                data-course-image="path/to/image.jpg"
-                                data-course-desc="<?php echo $row['descricao']; ?>"
-                                data-course-time="Horário: <?php echo $row['horario']; ?>"
-                                data-course-type="<?php echo $row['tipo']; ?>">Inscrever-se</button>
+                            <button class="enroll-btn"
+                            data-course-id="<?php echo $row['id']; ?>"
+                            data-course-image="path/to/image.jpg"
+                            data-course-desc="<?php echo $row['descricao']; ?>"
+                            data-course-time="Horário: <?php echo $row['horario']; ?>"
+                            data-course-type="<?php echo $row['tipo']; ?>"
+                            data-user="<?php echo htmlspecialchars($user); ?>">Inscrever-se</button>
+
                         </div>
                     <?php endwhile; ?>
                 <?php else: ?>
@@ -453,6 +456,7 @@ button#confirm-enroll-btn:active {
     const closeModalBtn = document.querySelector('.close-btn');
     const confirmEnrollBtn = document.getElementById('confirm-enroll-btn');
 
+
     let selectedCourseId = null;
 
     function openModal(courseId, image, desc, time) {
@@ -486,6 +490,7 @@ button#confirm-enroll-btn:active {
             const image = this.getAttribute('data-course-image');
             const desc = this.getAttribute('data-course-desc');
             const time = this.getAttribute('data-course-time');
+            const user = this.getAttribute('data-user');
             openModal(courseId, image, desc, time);
             modal.style.display = 'flex';
         });
@@ -495,9 +500,10 @@ button#confirm-enroll-btn:active {
     confirmEnrollBtn.addEventListener('click', function () {
         const tipoInscricao = tipoInscricaoSelect.value;
         const courseId = selectedCourseId;
+        const user = this.getAttribute('data-user');
 
         // Redireciona para a nova página pre_matricula.php com os parâmetros
-        window.location.href = `pre_matricula.php?course_id=${courseId}&tipo_inscricao=${tipoInscricao}`;
+        window.location.href = `pre_matricula.php?course_id=${courseId}&tipo_inscricao=${tipoInscricao}&user=${encodeURIComponent(user)}`;
     });
 </script>
 
